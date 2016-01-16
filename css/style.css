@@ -1,0 +1,237 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+#drawPanel {
+    cursor: pointer;
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+#controlPanel {
+    max-width: 320px;
+    height: auto;
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+#controlPanel div {
+    display: inline;
+    width: auto;
+    height: auto;
+    position: relative;
+}
+
+#controlPanel div i {
+    color: darkslategrey;
+    margin: 15px;
+    cursor: pointer;
+}
+
+#controlPanel span {
+    display: none;
+    color:white;
+    position: absolute;
+    width: auto;
+    top: 30px;
+    left: 15px;
+}
+
+#controlPanel #control i{
+    color: deepskyblue;
+}
+
+#modePanel {
+    position:absolute;
+    top:100px;
+    left:15px;
+    width:300px;
+    height:auto;
+    display: none;
+}
+
+#background {
+    width: auto;
+    margin-bottom: 60px;
+}
+
+#background span {
+    color:darkgrey;
+    display: block;
+    width:132px;
+    margin: 0px auto 10px;
+}
+
+#backgroundColors div {
+    width: 30px;
+    height: 30px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    margin: 5px;
+    -moz-box-shadow:    0 0 10px grey inset;
+    -webkit-box-shadow: 0 0 10px grey inset;
+    box-shadow:         0 0 10px grey inset;
+    opacity: 0.7;
+}
+
+#black {
+    background-color:black;
+    float: left;
+}
+
+#white {
+    background-color:white;
+    float: left;
+}
+
+#grey {
+    background-color: dimgrey;
+    float: left;
+}
+
+#lightBlue {
+    background-color: lightblue;
+    float: left;
+}
+
+#yellow {
+    background-color: #e7d218;
+    float: left;
+}
+
+#lightGreen {
+    background-color: greenyellow;
+    float: left;
+}
+
+#pink {
+    background-color: lightpink;
+    float: left;
+}
+
+#color {
+    width: auto;
+    margin-bottom: 75px;
+}
+
+#color span {
+    color:darkgrey;
+    display: block;
+    width:100px;
+    margin: 20px auto;
+}
+
+
+#penColors div {
+    width: 20px;
+    height: 20px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    margin: 3px;
+    -moz-box-shadow:    0 0 10px grey inset;
+    -webkit-box-shadow: 0 0 10px grey inset;
+    box-shadow:         0 0 10px grey inset;
+    opacity: 0.7;
+}
+
+#blackPen {
+    background-color:black;
+    float: left;
+}
+
+#whitePen {
+    background-color:white;
+    float: left;
+}
+
+#greyPen {
+    background-color: dimgrey;
+    float: left;
+}
+
+#lightBluePen {
+    background-color: lightblue;
+    float: left;
+}
+
+#yellowPen {
+    background-color: yellow;
+    float: left;
+}
+
+#pinkPen {
+    background-color: deeppink;
+    float: left;
+}
+
+#redPen {
+    background-color: red;
+    float: left;
+}
+
+#bluePen {
+    background-color: blue;
+    float: left;
+}
+#greenPen {
+    background-color: limegreen;
+    float: left;
+}
+#orangePen {
+    background-color: orange;
+    float: left;
+}
+#violetPen {
+    background-color: darkviolet;
+    float: left;
+}
+
+#symmetry {
+    margin: 10px;
+}
+
+#symmetryValue {
+    color:darkgrey;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+#mirrorMode, #spiralMode{
+    color: dimgrey;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px;
+}
+
+.state-on {
+    display: none;
+    color: deepskyblue;
+}
+
+#point {
+    position: absolute;
+    top:0;
+    left:0;
+    display: none;
+    width: 7px;
+    height: 7px;
+    background-color: #0ac1cd;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    cursor: pointer;
+}
