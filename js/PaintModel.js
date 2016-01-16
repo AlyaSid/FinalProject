@@ -1,11 +1,17 @@
 function PaintModel() {
     var mirrorMode = false;
     var spiralMode = false;
+    var pictureview = null;
 
-    var background;
+    var background = null;
+
+    this.start = function(view) {
+        pictureview = view;
+    }
 
     this.setBackground = function(color) {
         background = color;
+        pictureview.changeBackground(color);
     }
 
     this.getBackground = function() {

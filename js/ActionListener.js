@@ -31,6 +31,13 @@ $(window).load(function () {
             $(this).css({opacity: 0.7, width: newWidth, height: newHeight});
         });
 
+    $('#backgroundColors div, #penColors div').click(
+        function() {
+            var color = $(this).css('backgroundColor');
+            picture.setBackground(color);
+        }
+    );
+
     $('#mirrorMode, #spiralMode').hover(
         function() {
             $(this).animate({color: "#FFFFFF"},400);
@@ -75,22 +82,24 @@ $(window).load(function () {
         }
     });
 
-    $('#symmetry').slider( { min: 1, max: 6,
-        slide: function(event, ui) {
+    $('#symmetry').slider({
+        min: 1, max: 6,
+        slide: function (event, ui) {
             if (1 == ui.value) {
-                    $('#symmetryValue').text("No fold rotational symmetry");
-        } else {
-            $('#symmetryValue').text(ui.value + "-fold rotational symmetry");
-}
-        } } );
+                $('#symmetryValue').text("No fold rotational symmetry");
+            } else {
+                $('#symmetryValue').text(ui.value + "-fold rotational symmetry");
+            }
+        }
+    });
     $('#symmetryValue').text("No fold rotational symmetry");
 
-    //$("<div></div>").attr('id','point').appendTo('body');
-    //
-    //$(document).mousemove(function( event ) {
+    $("<div></div>").attr('id', 'point').appendTo('body');
+
+    //$(document).mousemove(function (event) {
     //    var posX = (event.pageX - 5) + 'px';
     //    var posY = (event.pageY - 5) + 'px';
-    //    $('#point').css({'display': 'block','left': posX, 'top': posY});
+    //    $('#point').css({'display': 'block', 'left': posX, 'top': posY});
     //});
 
 });
