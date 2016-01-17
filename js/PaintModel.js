@@ -9,6 +9,10 @@ function PaintModel() {
         pictureview = view;
     }
 
+    this.drawCursor = function(x,y) {
+        pictureview.updateCursor(x,y);
+    }
+
     this.setBackground = function(color) {
         background = color;
         pictureview.changeBackground(color);

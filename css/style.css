@@ -15,7 +15,7 @@
 }
 
 #controlPanel {
-    max-width: 320px;
+    max-width: 360px;
     height: auto;
     position: absolute;
     top:0;
@@ -23,10 +23,11 @@
 }
 
 #controlPanel div {
-    display: inline;
+    display: inline-block;
     width: auto;
     height: auto;
     position: relative;
+    margin: 0px 5px;
 }
 
 #controlPanel div i {
@@ -40,7 +41,7 @@
     color:white;
     position: absolute;
     width: auto;
-    top: 30px;
+    top: 55px;
     left: 15px;
 }
 
