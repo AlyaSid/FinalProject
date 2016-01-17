@@ -1,15 +1,20 @@
 $(window).load(function () {
     $("<div></div>").attr('id', 'point').appendTo('body');
     $('#drawPanel').mousemove(function (event) {
-        event.stopPropagation();
         var posCursorX = (event.pageX - 7) + 'px';
         var posCursorY = (event.pageY - 7) + 'px';
         picture.drawCursor(posCursorX, posCursorY);
     });
 
+
+    $('#fullScreen, #save, #undo, #new').mousemove( function (event){
+        event.stopPropagation();
+        $('.cursorPoints').css('display','none');
+    });
+
     $('#fullScreen, #save, #undo, #new').hover(
         function() {
-            $(this).find('i').animate({color: "#FFFFFF"},300);
+            $(this).find('i').animate({color: "#EEEEEE"},300);
             $(this).find('span').fadeToggle(300);
         },
         function() {
@@ -17,14 +22,24 @@ $(window).load(function () {
             $(this).find('span').fadeToggle(300);
     });
 
+    $('#control').mousemove( function (event){
+        event.stopPropagation();
+        $('.cursorPoints').css('display','none');
+    });
+
     $('#control').hover(
         function(){
-            $(this).find('i').animate({color: "#FFFFFF"},400);
+            $(this).find('i').animate({color: "#EEEEEE"},400);
             $(this).find('span').css('left','7px').fadeToggle(400);
         },
         function() {
             $(this).find('i').animate({color: "#00BFFF"},400);
             $(this).find('span').fadeToggle(400);
+    });
+
+    $('#modePanel').mousemove( function (event){
+        event.stopPropagation();
+        $('.cursorPoints').css('display','none');
     });
 
     $('#backgroundColors div, #penColors div').hover(
@@ -39,7 +54,7 @@ $(window).load(function () {
             $(this).css({opacity: 0.7, width: newWidth, height: newHeight});
         });
 
-    $('#backgroundColors div, #penColors div').click(
+    $('#backgroundColors div').click(
         function() {
             var color = $(this).css('backgroundColor');
             picture.setBackground(color);
@@ -48,7 +63,7 @@ $(window).load(function () {
 
     $('#mirrorMode, #spiralMode').hover(
         function() {
-            $(this).animate({color: "#FFFFFF"},400);
+            $(this).animate({color: "#EEEEEE"},400);
         },
         function() {
             $(this).animate({color: "#696969"},400);

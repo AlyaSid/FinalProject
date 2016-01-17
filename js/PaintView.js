@@ -3,7 +3,10 @@ function PaintView() {
         $('#drawPanel').animate({'backgroundColor': color},400);
     }
 
-    this.updateCursor = function(x,y) {
-        $('#point').css({'display':'block', 'left': x, 'top':y});
+    this.updateCursor = function(points) {
+        $('.cursorPoints').remove();
+        for (var i = 0; i < points.length; i++) {
+            $('#point').clone().css({'display': 'block', 'left': (points[i][0]), 'top': (points[i][1])}).addClass('cursorPoints').appendTo('body');
+        }
     }
 }
