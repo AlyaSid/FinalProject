@@ -6,7 +6,7 @@ function PaintView() {
     this.updateCursor = function(points) {
         $('.cursorPoints').remove();
         for (var i = 0; i < points.length; i++) {
-            $('#point').clone().css({'display': 'block', 'left': (points[i][0]), 'top': (points[i][1])}).addClass('cursorPoints').appendTo('body');
+            $('#point').clone().css({'display': 'block', 'left': (points[i].getX()), 'top': (points[i].getY())}).addClass('cursorPoints').appendTo('body');
         }
     }
 }

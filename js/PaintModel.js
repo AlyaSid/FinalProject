@@ -37,16 +37,16 @@ function PaintModel() {
 
     this.getPoints = function(curX, curY) {
         var pointsMassive = new Array();
-        var pointPair = new Array();
-        pointPair.push(curX);
-        pointPair.push(curY);
-        pointsMassive.push(pointPair);
+        var point = new Point();
+        point.setX(curX);
+        point.setY(curY);
+        pointsMassive.push(point);
 
         if (mirrorMode) {
-            var pointPair = [];
-            pointPair.push(($(window).width()/2 - (parseInt(curX) - $(window).width()/2))+'px');
-            pointPair.push(curY);
-            pointsMassive.push(pointPair);
+            var point = new Point();
+            point.setX(($(window).width()/2 - (parseInt(curX) - $(window).width()/2))+'px');
+            point.setY(curY);
+            pointsMassive.push(point);
         }
 
         return pointsMassive;
