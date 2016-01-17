@@ -6,7 +6,6 @@ $(window).load(function () {
         picture.drawCursor(posCursorX, posCursorY);
     });
 
-
     $('#fullScreen, #save, #undo, #new').mousemove( function (event){
         event.stopPropagation();
         $('.cursorPoints').css('display','none');

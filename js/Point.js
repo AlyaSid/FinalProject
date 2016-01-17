@@ -1,7 +1,7 @@
 function Point(){
 	var x;
 	var y;
-	var color;
+	var color = '#FFFFFF';
 
 	this.getX = function() {
 		return x;
