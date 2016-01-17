@@ -9,4 +9,11 @@ function PaintView() {
             $('#point').clone().css({'display': 'block', 'left': (points[i].getX()), 'top': (points[i].getY())}).addClass('cursorPoints').appendTo('body');
         }
     }
+
+    this.update = function(points) {
+        for (var i = 0; i < points.length; i++) {
+            console.log(points[i].getColor());
+            $('#point').clone().css({'backgroundColor': (points[i].getColor()),'display': 'block', 'left': (points[i].getX()), 'top': (points[i].getY())}).addClass('picturePoints').appendTo('body');
+        }
+    }
 }

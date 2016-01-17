@@ -1,10 +1,29 @@
 $(window).load(function () {
     $("<div></div>").attr('id', 'point').appendTo('body');
+
+    var isDown;
+
+    $('#drawPanel').mousedown(
+        function() {
+            isDown = true;
+        }
+    );
+
     $('#drawPanel').mousemove(function (event) {
-        var posCursorX = (event.pageX - 7) + 'px';
-        var posCursorY = (event.pageY - 7) + 'px';
-        picture.drawCursor(posCursorX, posCursorY);
+        var posCursorX = (event.clientX - 7) + 'px';
+        var posCursorY = (event.clientY - 7) + 'px';
+        if (isDown) {
+            picture.drawPoints(posCursorX, posCursorY);
+        } else {
+            picture.drawCursor(posCursorX, posCursorY);
+        }
     });
+
+    $('#drawPanel').mouseup(
+        function() {
+            isDown = false;
+        }
+    );
 
     $('#fullScreen, #save, #undo, #new').mousemove( function (event){
         event.stopPropagation();

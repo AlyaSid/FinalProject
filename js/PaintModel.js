@@ -5,7 +5,7 @@ function PaintModel() {
     var pictureView = null;
 
     var cursorPoints = new Array();
-
+    var picturePoints = new Array();
     var background = null;
 
     this.start = function(view) {
@@ -15,7 +15,11 @@ function PaintModel() {
     this.drawCursor = function(x,y) {
         cursorPoints = this.getPoints(x,y);
         pictureView.updateCursor(cursorPoints);
+    }
 
+    this.drawPoints = function(x,y) {
+        picturePoints = this.getPoints(x,y);
+        pictureView.update(picturePoints);
     }
 
     this.setBackground = function(color) {
