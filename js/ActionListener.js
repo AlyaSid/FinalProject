@@ -4,14 +4,18 @@ $(window).load(function () {
     var isDown;
 
     $('#drawPanel').mousedown(
-        function() {
+        function(event) {
             isDown = true;
+			var point = new Point();
+			point.setX(event.clientX);
+			point.setY(event.clientY);
+			picture.setPrevPoint(point);
         }
     );
 
     $('#drawPanel').mousemove(function (event) {
-        var posCursorX = (event.clientX - 7) + 'px';
-        var posCursorY = (event.clientY - 7) + 'px';
+        var posCursorX = (event.clientX - 7);
+        var posCursorY = (event.clientY - 7);
         if (isDown) {
             picture.drawPoints(posCursorX, posCursorY);
         } else {
@@ -22,6 +26,7 @@ $(window).load(function () {
     $('#drawPanel').mouseup(
         function() {
             isDown = false;
+			picture.resetPrevPoint();
         }
     );
 
@@ -75,6 +80,7 @@ $(window).load(function () {
     $('#backgroundColors div').click(
         function() {
             var color = $(this).css('backgroundColor');
+            $('#modePanel').css('backgroundColor',color);
             picture.setBackground(color);
         }
     );
