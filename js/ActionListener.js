@@ -7,15 +7,15 @@ $(window).load(function () {
         function(event) {
             isDown = true;
 			var point = new Point();
-			point.setX(event.clientX);
-			point.setY(event.clientY);
+			point.setX(event.clientX - $(window).width()/2 - 7);
+			point.setY(event.clientY - $(window).height()/2 - 7) ;
 			picture.setPrevPoint(point);
         }
     );
 
     $('#drawPanel').mousemove(function (event) {
-        var posCursorX = (event.clientX - 7);
-        var posCursorY = (event.clientY - 7);
+        var posCursorX = (event.clientX - $(window).width()/2 - 7);
+        var posCursorY = (event.clientY - $(window).height()/2 - 7);
         if (isDown) {
             picture.drawPoints(posCursorX, posCursorY);
         } else {
