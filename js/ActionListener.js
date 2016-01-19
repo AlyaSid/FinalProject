@@ -1,4 +1,21 @@
+var resizeCanvas = function() {
+    var width = $(window).width();
+    var height = $(window).height();
+
+    var c = $("canvas"),
+        ctx = c[0].getContext('2d');
+
+    ctx.canvas.height = height;
+    ctx.canvas.width = width;
+}
+
+$(window).resize(function () {
+    resizeCanvas();
+});
+
 $(window).load(function () {
+    resizeCanvas();
+
     $("<div></div>").attr('id', 'point').appendTo('body');
 
     var isDown;
@@ -15,14 +32,11 @@ $(window).load(function () {
 
     $('#drawPanel').mousemove(function (event) {
         var posCursorX = (event.clientX - $(window).width()/2);
-		// координатная ось Y теперь направлена снизу вверх (так проще считать спираль и симметрию, по-моему)
-		// а ещё сдвиг на 7 пикселей теперь в PanelView
         var posCursorY = (- event.clientY + $(window).height()/2);
         if (isDown) {
             picture.drawPoints(posCursorX, posCursorY);
-        } else {
-            picture.drawCursor(posCursorX, posCursorY);
         }
+        picture.drawCursor(posCursorX, posCursorY);
     });
 
     $('#drawPanel').mouseup(
@@ -82,8 +96,14 @@ $(window).load(function () {
     $('#backgroundColors div').click(
         function() {
             var color = $(this).css('backgroundColor');
-            $('#modePanel').css('backgroundColor',color);
             picture.setBackground(color);
+        }
+    );
+
+    $('#penColors div').click(
+        function() {
+            var color = $(this).css('backgroundColor');
+            picture.setPenColor(color);
         }
     );
 

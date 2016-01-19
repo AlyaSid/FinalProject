@@ -17,7 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.min.js"></script>
     <script src="./jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
     <script type="text/javascript" src="./jquery.fullscreen-master/release/jquery.fullscreen.min.js"></script>
-
+    <script src="./js/jcanvas.min.js"></script>
     <script src="./js/Point.js" type="text/javascript"></script>
     <script src="./js/PaintView.js" type="text/javascript"></script>
     <script src="./js/PaintModel.js" type="text/javascript"></script>
@@ -25,7 +25,7 @@
     <script src="./js/ActionListener.js" type="text/javascript"></script>
 </head>
 <body>
-    <div id="drawPanel">
+    <canvas id="drawPanel" style="position: absolute; top: 0; left: 0"></canvas>
         <div id="controlPanel">
             <div id="fullScreen" class="fullScreenOff">
                 <i class="fa fa-arrows-alt fa-2x"></i>
@@ -95,6 +95,5 @@
                 </div>
             </div>
         </div>
-    </div>
 </body>
 </html>

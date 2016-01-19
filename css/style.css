@@ -7,17 +7,18 @@
     -webkit-user-select: none;
     -o-user-select: none;
     user-select: none;
+
+    font-family: 'Ubuntu', sans-serif;
+    cursor: pointer;
 }
 
 #drawPanel {
-    cursor: pointer;
     min-width: 100%;
     min-height: 100%;
     position: absolute;
     top: 0;
     left: 0;
     background-color: black;
-    font-family: 'Ubuntu', sans-serif;
 }
 
 #controlPanel {

@@ -21,7 +21,8 @@ function PaintModel() {
     }
 
     this.drawPoints = function(x,y) {
-		this.plotLine(prevPoint.getX(), prevPoint.getY(), x, y, 1);
+        pictureView.updateArrays(this.getPoints(prevPoint.getX(), prevPoint.getY()), this.getPoints(x, y));
+
 		prevPoint.setX(x);
 		prevPoint.setY(y);
     }
@@ -135,8 +136,6 @@ function PaintModel() {
 
 		while(true){
 			picturePoints = this.getPoints(x0,y0);
-			console.log('x ' + x0);
-			console.log('y ' + y0);
 			pictureView.update(picturePoints);
 
 			if ((x0==x1) && (y0==y1)) break;
