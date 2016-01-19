@@ -80,10 +80,12 @@ function PaintModel() {
                     var angle = this.arithmeticSum(i) * (Math.PI / 2) / sum;
                     var curR = k * angle;
                     var curTheta = theta - (Math.PI / 2 - angle);
-                    var point = new Point();
-                    point.setX(this.getCartesianX(curR, curTheta));
-                    point.setY(this.getCartesianY(curR, curTheta));
-                    newPoints.push(point);
+                    if (curTheta != theta) {
+                        var point = new Point();
+                        point.setX(this.getCartesianX(curR, curTheta));
+                        point.setY(this.getCartesianY(curR, curTheta));
+                        newPoints.push(point);
+                    }
                     i++;
                 }
             }
