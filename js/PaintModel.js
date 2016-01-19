@@ -21,9 +21,6 @@ function PaintModel() {
     }
 
     this.drawPoints = function(x,y) {
-		//picturePoints = this.getPoints(x,y);
-		//pictureView.update(picturePoints);
-		// рисуем не только саму точку, а точки между предыдущей нарисованной точкой и текущей, чтобы заполнить пробел
 		this.plotLine(prevPoint.getX(), prevPoint.getY(), x, y, 1);
 		prevPoint.setX(x);
 		prevPoint.setY(y);
@@ -62,6 +59,7 @@ function PaintModel() {
         var pointsMassive = new Array();
         var newPoints = new Array();
         var point = new Point();
+
         point.setX(curX);
         point.setY(curY);
         pointsMassive.push(point);
@@ -100,7 +98,7 @@ function PaintModel() {
             var r = this.getPolarR(x, y);
             var theta = this.getPolarTheta(x, y);
 
-            for (var i = 0; i < symmetry-1; i++) {
+            for (var j = 0; j < symmetry-1; j++) {
                 var point = new Point();
                 theta = theta - (2 * Math.PI / symmetry);
                 point.setX(this.getCartesianX(r, theta));
@@ -124,7 +122,6 @@ function PaintModel() {
         return pointsMassive;
     }
 
-	// Алгоритм Брезенхейма
 	this.plotLine = function(x0, y0, x1, y1, step)
 	{
 		
@@ -146,24 +143,21 @@ function PaintModel() {
 			if (e2 < dx){ err += dx; y0  += sy; }
 		}
 	}
-	
-	// преобразование из полярных координат в декартовыё
+
 	this.getCartesianX = function(r, theta) {
 		return r * Math.cos(theta);
 	}
 	this.getCartesianY = function(r, theta) {
 		return r * Math.sin(theta);
 	}
-	
-	// преобразование из декартовых координат в полярные
+
 	this.getPolarR = function(x, y) {
 		return Math.sqrt(x*x + y*y);
 	}
 	this.getPolarTheta = function(x, y) {
-		return Math.atan2(y, x); // про atan2 можно почитать тут https://en.wikipedia.org/wiki/Polar_coordinate_system#Converting_between_polar_and_Cartesian_coordinates
+		return Math.atan2(y, x);
 	}
-	
-	// сумма арифметической прогрессии от 1 до n
+
 	this.arithmeticSum = function(n) {
 		return (1 + n) * n / 2;
 	}
