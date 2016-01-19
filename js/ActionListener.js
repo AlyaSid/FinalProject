@@ -7,15 +7,17 @@ $(window).load(function () {
         function(event) {
             isDown = true;
 			var point = new Point();
-			point.setX(event.clientX - $(window).width()/2 - 7);
-			point.setY(event.clientY - $(window).height()/2 - 7) ;
+			point.setX(event.clientX - $(window).width()/2);
+			point.setY(- event.clientY + $(window).height()/2) ;
 			picture.setPrevPoint(point);
         }
     );
 
     $('#drawPanel').mousemove(function (event) {
-        var posCursorX = (event.clientX - $(window).width()/2 - 7);
-        var posCursorY = (event.clientY - $(window).height()/2 - 7);
+        var posCursorX = (event.clientX - $(window).width()/2);
+		// координатная ось Y теперь направлена снизу вверх (так проще считать спираль и симметрию, по-моему)
+		// а ещё сдвиг на 7 пикселей теперь в PanelView
+        var posCursorY = (- event.clientY + $(window).height()/2);
         if (isDown) {
             picture.drawPoints(posCursorX, posCursorY);
         } else {
@@ -134,8 +136,10 @@ $(window).load(function () {
         slide: function (event, ui) {
             if (1 == ui.value) {
                 $('#symmetryValue').text("No fold rotational symmetry");
+                picture.setSymmetry(0);
             } else {
                 $('#symmetryValue').text(ui.value + "-fold rotational symmetry");
+                picture.setSymmetry(ui.value);
             }
         }
     });
