@@ -8,6 +8,7 @@ function PaintModel() {
     var cursorPoints = new Array();
     var picturePoints = new Array();
     var background = null;
+    var penColor = "rgb(255, 255, 255)";
 	
 	var prevPoint = null;
 
@@ -22,7 +23,7 @@ function PaintModel() {
 
     this.drawPoints = function(x,y) {
         pictureView.updateArrays(this.getPoints(prevPoint.getX(), prevPoint.getY()), this.getPoints(x, y));
-
+        prevPoint.setColor(penColor);
 		prevPoint.setX(x);
 		prevPoint.setY(y);
     }
@@ -30,6 +31,10 @@ function PaintModel() {
     this.setBackground = function(color) {
         background = color;
         pictureView.changeBackground(color);
+    }
+
+    this.setPenColor = function(color) {
+        penColor = color;
     }
 
     this.getBackground = function() {
@@ -50,6 +55,7 @@ function PaintModel() {
 	
 	this.setPrevPoint = function(point) {
 		prevPoint = point;
+        prevPoint.setColor(penColor);
 	}
 	
 	this.resetPrevPoint = function() {
@@ -60,6 +66,7 @@ function PaintModel() {
         var pointsMassive = new Array();
         var newPoints = new Array();
         var point = new Point();
+        point.setColor(penColor);
 
         point.setX(curX);
         point.setY(curY);
@@ -83,6 +90,7 @@ function PaintModel() {
                     var curTheta = theta - (Math.PI / 2 - angle);
                     if (curTheta != theta) {
                         var point = new Point();
+                        point.setColor(penColor);
                         point.setX(this.getCartesianX(curR, curTheta));
                         point.setY(this.getCartesianY(curR, curTheta));
                         newPoints.push(point);
@@ -103,6 +111,7 @@ function PaintModel() {
 
             for (var j = 0; j < symmetry-1; j++) {
                 var point = new Point();
+                point.setColor(penColor);
                 theta = theta - (2 * Math.PI / symmetry);
                 point.setX(this.getCartesianX(r, theta));
                 point.setY(this.getCartesianY(r, theta));
@@ -115,6 +124,7 @@ function PaintModel() {
         if (mirrorMode) {
 			for (var i = 0; i < pointsMassive.length; i++) {
 				var point = new Point();
+                point.setColor(penColor);
 				point.setX(-pointsMassive[i].getX());
 				point.setY(pointsMassive[i].getY());
 				newPoints.push(point);

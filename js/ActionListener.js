@@ -7,7 +7,7 @@ var resizeCanvas = function() {
 
     ctx.canvas.height = height;
     ctx.canvas.width = width;
-}
+};
 
 $(window).resize(function () {
     resizeCanvas();
@@ -53,12 +53,12 @@ $(window).load(function () {
 
     $('#fullScreen, #save, #undo, #new').hover(
         function() {
-            $(this).find('i').animate({color: "#EEEEEE"},300);
-            $(this).find('span').fadeToggle(300);
+            $(this).find('i').animate({color: "#EEEEEE"},100);
+            $(this).find('span').fadeToggle(100);
         },
         function() {
-            $(this).find('i').animate({color: "#2F4F4F"},300);
-            $(this).find('span').fadeToggle(300);
+            $(this).find('i').animate({color: "#2F4F4F"},100);
+            $(this).find('span').fadeToggle(100);
     });
 
     $('#control').mousemove( function (event){
@@ -68,12 +68,12 @@ $(window).load(function () {
 
     $('#control').hover(
         function(){
-            $(this).find('i').animate({color: "#EEEEEE"},400);
-            $(this).find('span').css('left','7px').fadeToggle(400);
+            $(this).find('i').animate({color: "#EEEEEE"},100);
+            $(this).find('span').css('left','7px').fadeToggle(100);
         },
         function() {
-            $(this).find('i').animate({color: "#00BFFF"},400);
-            $(this).find('span').fadeToggle(400);
+            $(this).find('i').animate({color: "#00BFFF"},100);
+            $(this).find('span').fadeToggle(100);
     });
 
     $('#modePanel').mousemove( function (event){
@@ -109,10 +109,10 @@ $(window).load(function () {
 
     $('#mirrorMode, #spiralMode').hover(
         function() {
-            $(this).animate({color: "#EEEEEE"},400);
+            $(this).animate({color: "#EEEEEE"},100);
         },
         function() {
-            $(this).animate({color: "#696969"},400);
+            $(this).animate({color: "#696969"},100);
         });
 
     $('#mirrorMode').click(
@@ -129,13 +129,13 @@ $(window).load(function () {
 
     $('#control').click(
         function() {
-            $('#modePanel').fadeToggle(1000);
+            $('#modePanel').fadeToggle(100);
         }
     );
 
     $('#modePanel').mouseleave(
         function() {
-            $('#modePanel').fadeOut(1000);
+            $('#modePanel').fadeOut(100);
         }
     );
 
