@@ -11,6 +11,9 @@
     font-family: 'Ubuntu', sans-serif;
     cursor: pointer;
 }
+body  {
+    overflow: hidden;
+}
 
 #drawPanel {
     min-width: 100%;

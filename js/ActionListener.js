@@ -53,12 +53,28 @@ $(window).load(function () {
 
     $('#fullScreen, #save, #undo, #new').hover(
         function() {
-            $(this).find('i').animate({color: "#EEEEEE"},100);
-            $(this).find('span').fadeToggle(100);
+            $(this)
+                .stop()
+                .queue('fx',
+                    function() {
+                        $(this)
+                            .find('i').animate({color: '#EEEEEE'},300)
+                            .end()
+                            .find('span').fadeIn(300)
+                            .dequeue('fx');
+                    });
         },
         function() {
-            $(this).find('i').animate({color: "#2F4F4F"},100);
-            $(this).find('span').fadeToggle(100);
+            $(this)
+                .stop()
+                .queue('fx',
+                    function() {
+                        $(this)
+                            .find('i').animate({color: '#2F4F4F'},300)
+                            .end()
+                            .find('span').fadeOut(300)
+                            .dequeue('fx');
+                    });
     });
 
     $('#control').mousemove( function (event){
@@ -67,13 +83,29 @@ $(window).load(function () {
     });
 
     $('#control').hover(
-        function(){
-            $(this).find('i').animate({color: "#EEEEEE"},100);
-            $(this).find('span').css('left','7px').fadeToggle(100);
+        function() {
+            $(this)
+                .stop()
+                .queue('fx',
+                    function() {
+                        $(this)
+                            .find('i').animate({color: '#EEEEEE'},300)
+                            .end()
+                            .find('span').css('left','7px').fadeIn(300)
+                            .dequeue('fx');
+                    });
         },
         function() {
-            $(this).find('i').animate({color: "#00BFFF"},100);
-            $(this).find('span').fadeToggle(100);
+            $(this)
+                .stop()
+                .queue('fx',
+                    function() {
+                        $(this)
+                            .find('i').animate({color: '#00BFFF'},300)
+                            .end()
+                            .find('span').fadeOut(300)
+                            .dequeue('fx');
+                    });
     });
 
     $('#modePanel').mousemove( function (event){
@@ -109,10 +141,20 @@ $(window).load(function () {
 
     $('#mirrorMode, #spiralMode').hover(
         function() {
-            $(this).animate({color: "#EEEEEE"},100);
+            $(this)
+                .stop()
+                .queue('fx',
+                function() {
+                    $(this).animate({color: '#EEEEEE'},200).dequeue('fx');;
+                });
         },
         function() {
-            $(this).animate({color: "#696969"},100);
+            $(this)
+                .stop()
+                .queue('fx',
+                    function() {
+                        $(this).animate({color: '#696969'},200).dequeue('fx');;
+                    });
         });
 
     $('#mirrorMode').click(
@@ -129,13 +171,44 @@ $(window).load(function () {
 
     $('#control').click(
         function() {
-            $('#modePanel').fadeToggle(100);
+            $(this)
+                .stop(true)
+                .queue('fx',
+                    function(){
+                        $('#modePanel')
+                            .fadeToggle(300)
+                            .dequeue('fx');
+                        });
         }
     );
 
+    //$(function(){
+    //    $('#navigation-text-menu ul li a').hover(function(){
+    //        $(this)
+    //            .stop(true)
+    //            .queue('fx',
+    //                function(){
+    //                    $(this)
+    //                        .css({'backgroundColor': '#165b95'})
+    //                        .animate({paddingLeft: '50px'}, 500)
+    //                        .dequeue('fx');
+    //                });
+    //    }, function(){
+    //        $(this)
+    //            .stop(true)
+    //            .queue('fx',
+    //                function(){
+    //                    $(this)
+    //                        .css({'backgroundColor': '#2b2a2a'})
+    //                        .animate({paddingLeft: '0px' }, 500)
+    //                        .dequeue('fx');
+    //                });
+    //    });
+    //});
+
     $('#modePanel').mouseleave(
         function() {
-            $('#modePanel').fadeOut(100);
+            $('#modePanel').fadeOut(300);
         }
     );
 
@@ -155,13 +228,13 @@ $(window).load(function () {
         min: 1, max: 6,
         slide: function (event, ui) {
             if (1 == ui.value) {
-                $('#symmetryValue').text("No fold rotational symmetry");
+                $('#symmetryValue').text('No fold rotational symmetry');
                 picture.setSymmetry(0);
             } else {
-                $('#symmetryValue').text(ui.value + "-fold rotational symmetry");
+                $('#symmetryValue').text(ui.value + '-fold rotational symmetry');
                 picture.setSymmetry(ui.value);
             }
         }
     });
-    $('#symmetryValue').text("No fold rotational symmetry");
+    $('#symmetryValue').text('No fold rotational symmetry');
 });
