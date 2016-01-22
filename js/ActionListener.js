@@ -266,11 +266,6 @@ $(window).load(function () {
             }
     });
 
-    var downloadCanvas = function(link, canvasId, filename) {
-        link.href = document.getElementById(canvasId).toDataURL();
-        link.download = filename;
-    };
-
     $('#dialog-confirm').dialog({
         autoOpen:false,
         resizable: false,
@@ -280,10 +275,9 @@ $(window).load(function () {
             [
                 { text:'Locally',
                     click:function() {
-                        $('#download').href = document.getElementById('drawPanel').toDataURL();
-                        console.log( $('#download').href);
-                        $('#download').download = 'test.png';
-                        console.log( $('#download').download);
+                        $('#download').attr('href', document.getElementById('drawPanel').toDataURL());
+                        $('#download').attr('download', 'test.png');
+                        document.getElementById("download").click();
                     }
                 },
                  {text:'Remote',
@@ -298,36 +292,7 @@ $(window).load(function () {
                     }
                 }
             ]
-        // {
-        //    "Locally" : function() {
-        //        $('#dl').click(dlCanvas);
-        //        $( this ).dialog( "close" );
-        //    },
-        //    "Remote" : function() {
-        //        $( this ).dialog( "close" );
-        //    },
-        //    "Cancel" : function() {
-        //        $( this ).dialog( "close" );
-        //    }
-        //}
     });
-
-
-    //var dlCanvas = function() {
-    //    var canvas = document.getElementById("drawPanel");
-    //    var dt = canvas.toDataURL('image/png');
-    //    dt = dt.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
-    //    dt = dt.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Canvas.png');
-    //    console.log('ok');
-    //    this.href = dt;
-    //};
-
-    function downloadCanvas(link, canvasId, filename) {
-        link.href = document.getElementById(canvasId).toDataURL();
-        console.log(link.href);
-        link.download = filename;
-        console.log(link.download);
-    }
 
     $("#save").click(function(e) {
         e.preventDefault();
