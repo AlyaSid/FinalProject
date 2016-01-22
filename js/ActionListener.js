@@ -265,4 +265,30 @@ $(window).load(function () {
             }
     });
 
+    //$('#save').click(
+    //    var dialog = $('<div/>', {
+    //        id: 'dialog-confirm',
+    //        title:'Сохранение...'
+    //    });
+    //
+    //    $('body').append(dialog);
+    //
+    //    $( "#dialog-confirm" ).dialog({
+    //        resizable: false,
+    //        width:350,
+    //        modal: true,
+    //        buttons: {
+    //            "Locally": function() {
+    //                $( this ).dialog( "close" );
+    //            },
+    //            "Remote": function() {
+    //                $( this ).dialog( "close" );
+    //            },
+    //            "Cancel": function() {
+    //                $( this ).dialog( "close" );
+    //            }
+    //        }
+    //    })
+    //);
+
 });

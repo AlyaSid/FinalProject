@@ -25,7 +25,7 @@ body  {
 }
 
 #controlPanel {
-    min-width: 360px;
+    min-width: 380px;
     height: auto;
     position: absolute;
     top:0;
@@ -253,4 +253,10 @@ body  {
     top:0;
     left:0;
     color: darkgrey;
+}
+
+#dialog-confirm {
+    display: none;
+    width: auto;
+    position: absolute;
 }
