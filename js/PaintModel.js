@@ -1,66 +1,108 @@
 function PaintModel() {
-    var mirrorMode = false;
-    var spiralMode = false;
-	var spiralModePointCount = 4;
-    var symmetry = 0;
-    var pictureView = null;
-
-    var cursorPoints = new Array();
-    var picturePoints = new Array();
-    var background = null;
-    var penColor = "rgb(255, 255, 255)";
-	
-	var prevPoint = null;
+    var mirrorMode = false,
+        spiralMode = false,
+	    spiralModePointCount = 4,
+        symmetry = 0,
+        pictureView = null,
+        cursorPoints = [],
+        picturePoints = [],
+        background = null,
+        penColor = "rgb(255, 255, 255)",
+	    prevPoint = null,
+        lineArray = [],
+        linesGroup = [],
+        lastLine = null;
 
     this.start = function(view) {
         pictureView = view;
-    }
+    };
 
     this.drawCursor = function(x,y) {
         cursorPoints = this.getPoints(x,y);
         pictureView.updateCursor(cursorPoints);
-    }
+    };
 
     this.drawPoints = function(x,y) {
-        pictureView.updateArrays(this.getPoints(prevPoint.getX(), prevPoint.getY()), this.getPoints(x, y));
-        prevPoint.setColor(penColor);
+
+        var startPoints = this.getPoints(prevPoint.getX(), prevPoint.getY());
+        var endPoints = this.getPoints(x, y);
+
+        for (var i = 0; i < startPoints.length; i++) {
+            var line = new Line();
+            line.setStartPoint(startPoints[i]);
+            line.setEndPoint(endPoints[i]);
+            line.setColor(penColor);
+            lineArray = lineArray.concat(line);
+        }
+
+        pictureView.updateArrays(lineArray);
+        //pictureView.updateArrays(this.getPoints(prevPoint.getX(), prevPoint.getY()), this.getPoints(x, y));
+        //prevPoint.setColor(penColor);
 		prevPoint.setX(x);
 		prevPoint.setY(y);
+    };
+
+    this.memoryClear = function () {
+        linesGroup = [];
     }
+
+    this.reDraw = function() {
+        pictureView.updateArrays(linesGroup);
+    };
+
+    this.undo = function() {
+        pictureView.clear();
+        var numLast = lastLine.length;
+        var num = linesGroup.length;
+        linesGroup.splice(num - numLast, numLast);
+        this.reDraw();
+    }
+
+    this.redo = function () {
+        pictureView.clear();
+        linesGroup = linesGroup.concat(lastLine);
+        pictureView.updateArrays(linesGroup);
+    };
+
+    this.setLastLine = function() {
+        linesGroup = linesGroup.concat(lineArray);
+        lastLine = lineArray;
+        lineArray = [];
+    };
 
     this.setBackground = function(color) {
         background = color;
         pictureView.changeBackground(color);
-    }
+    };
 
     this.setPenColor = function(color) {
         penColor = color;
-    }
+    };
 
     this.getBackground = function() {
         return background;
-    }
+    };
 
     this.setSymmetry = function(num) {
         symmetry = num;
-    }
+    };
 
     this.changeMirrorMode = function() {
         mirrorMode = !mirrorMode;
-    }
+    };
 
     this.changeSpiralMode = function() {
         spiralMode = !spiralMode;
-    }
+    };
 	
 	this.setPrevPoint = function(point) {
 		prevPoint = point;
         prevPoint.setColor(penColor);
-	}
+	};
 	
 	this.resetPrevPoint = function() {
 		prevPoint = null;
-	}
+	};
 
     this.getPoints = function(curX, curY) {
         var pointsMassive = new Array();
@@ -133,43 +175,24 @@ function PaintModel() {
 		pointsMassive = pointsMassive.concat(newPoints);
 
         return pointsMassive;
-    }
-
-	this.plotLine = function(x0, y0, x1, y1, step)
-	{
-		
-		var dx = Math.abs(x1-x0);
-		var dy = Math.abs(y1-y0);
-		var sx = (x0 < x1) ? 1 : -1;
-		var sy = (y0 < y1) ? 1 : -1;
-		var err = dx-dy;
-
-		while(true){
-			picturePoints = this.getPoints(x0,y0);
-			pictureView.update(picturePoints);
-
-			if ((x0==x1) && (y0==y1)) break;
-			var e2 = 2*err;
-			if (e2 >-dy){ err -= dy; x0  += sx; }
-			if (e2 < dx){ err += dx; y0  += sy; }
-		}
-	}
+    };
 
 	this.getCartesianX = function(r, theta) {
 		return r * Math.cos(theta);
-	}
+	};
 	this.getCartesianY = function(r, theta) {
 		return r * Math.sin(theta);
-	}
+	};
 
 	this.getPolarR = function(x, y) {
 		return Math.sqrt(x*x + y*y);
-	}
+	};
+
 	this.getPolarTheta = function(x, y) {
 		return Math.atan2(y, x);
-	}
+	};
 
 	this.arithmeticSum = function(n) {
 		return (1 + n) * n / 2;
-	}
+	};
 }

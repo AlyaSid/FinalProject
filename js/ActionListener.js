@@ -7,6 +7,8 @@ var resizeCanvas = function() {
 
     ctx.canvas.height = height;
     ctx.canvas.width = width;
+
+    picture.reDraw();
 };
 
 $(window).resize(function () {
@@ -18,9 +20,12 @@ $(window).load(function () {
 
     $("<div></div>").attr('id', 'point').appendTo('body');
 
-    var isDown;
+    var isDown,
+        $drawPanel = $('#drawPanel'),
+        $controls = $('#fullScreen, #save, #undo, #new'),
+        $control = $('#control');
 
-    $('#drawPanel').mousedown(
+    $drawPanel.mousedown(
         function(event) {
             isDown = true;
 			var point = new Point();
@@ -30,7 +35,7 @@ $(window).load(function () {
         }
     );
 
-    $('#drawPanel').mousemove(function (event) {
+    $drawPanel.mousemove(function (event) {
         var posCursorX = (event.clientX - $(window).width()/2);
         var posCursorY = (- event.clientY + $(window).height()/2);
         if (isDown) {
@@ -39,19 +44,20 @@ $(window).load(function () {
         picture.drawCursor(posCursorX, posCursorY);
     });
 
-    $('#drawPanel').mouseup(
+    $drawPanel.mouseup(
         function() {
             isDown = false;
 			picture.resetPrevPoint();
+            picture.setLastLine();
         }
     );
 
-    $('#fullScreen, #save, #undo, #new').mousemove( function (event){
+    $controls.mousemove( function (event){
         event.stopPropagation();
         $('.cursorPoints').css('display','none');
     });
 
-    $('#fullScreen, #save, #undo, #new').hover(
+    $controls.hover(
         function() {
             $(this)
                 .stop()
@@ -77,12 +83,12 @@ $(window).load(function () {
                     });
     });
 
-    $('#control').mousemove( function (event){
+    $control.mousemove( function (event){
         event.stopPropagation();
         $('.cursorPoints').css('display','none');
     });
 
-    $('#control').hover(
+    $control.hover(
         function() {
             $(this)
                 .stop()
@@ -169,7 +175,7 @@ $(window).load(function () {
             picture.changeSpiralMode();
         });
 
-    $('#control').click(
+    $control.click(
         function() {
             $(this)
                 .stop(true)
@@ -181,30 +187,6 @@ $(window).load(function () {
                         });
         }
     );
-
-    //$(function(){
-    //    $('#navigation-text-menu ul li a').hover(function(){
-    //        $(this)
-    //            .stop(true)
-    //            .queue('fx',
-    //                function(){
-    //                    $(this)
-    //                        .css({'backgroundColor': '#165b95'})
-    //                        .animate({paddingLeft: '50px'}, 500)
-    //                        .dequeue('fx');
-    //                });
-    //    }, function(){
-    //        $(this)
-    //            .stop(true)
-    //            .queue('fx',
-    //                function(){
-    //                    $(this)
-    //                        .css({'backgroundColor': '#2b2a2a'})
-    //                        .animate({paddingLeft: '0px' }, 500)
-    //                        .dequeue('fx');
-    //                });
-    //    });
-    //});
 
     $('#modePanel').mouseleave(
         function() {
@@ -237,4 +219,50 @@ $(window).load(function () {
         }
     });
     $('#symmetryValue').text('No fold rotational symmetry');
+
+    $('#undo').click(
+        function() {
+            if ($(this).find('span').text() === 'Undo') {
+                picture.undo();
+                $(this).find('span').text('Redo');
+            } else {
+                picture.redo();
+                $(this).find('span').text('Undo');
+            }
+        }
+    );
+
+    var userText = $('<div/>', {
+        id: 'userText'
+    });
+    $('body').append(userText);
+
+    var clear = function(){
+        pictureView.clear();
+        userText.text('You can use SPACE to start a new.');
+        userText.css({'left': $(window).innerWidth()/2 - userText.width()/2, 'top': $(window).innerHeight()/2});
+        userText
+            .animate({
+                'opacity': 1
+            }, 1000)
+            .animate({
+                'opacity': 0,
+            }, 1000)
+    };
+
+    $('#new').click(
+        function() {
+            clear();
+            picture.memoryClear();
+        }
+    );
+
+    $(window).keypress(
+        function(e) {
+            if (e.keyCode == 32) {
+                clear();
+                picture.memoryClear();
+            }
+    });
+
 });
