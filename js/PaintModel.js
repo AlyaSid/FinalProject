@@ -24,18 +24,18 @@ function PaintModel() {
 
     this.drawPoints = function(x,y) {
 
-        //var startPoints = this.getPoints(prevPoint.getX(), prevPoint.getY());
-        //var endPoints = this.getPoints(x, y);
-        //
-        //for (var i = 0; i < startPoints.length; i++) {
-        //    var line = new Line();
-        //    line.setStartPoint(startPoints[i]);
-        //    line.setEndPoint(endPoints[i]);
-        //    line.setColor(penColor);
-        //    lineArray = lineArray.concat(line);
-        //}
+        var startPoints = this.getPoints(prevPoint.getX(), prevPoint.getY());
+        var endPoints = this.getPoints(x, y);
 
-        pictureView.updateArrays(this.getPoints(prevPoint.getX(), prevPoint.getY()), this.getPoints(x, y));
+        for (var i = 0; i < startPoints.length; i++) {
+            var line = new Line();
+            line.setStartPoint(startPoints[i]);
+            line.setEndPoint(endPoints[i]);
+            line.setColor(penColor);
+            lineArray = lineArray.concat(line);
+        }
+
+        pictureView.updateArrays(startPoints, endPoints);
 		prevPoint.setX(x);
 		prevPoint.setY(y);
         prevPoint.setColor(penColor);
@@ -46,7 +46,7 @@ function PaintModel() {
     }
 
     this.reDraw = function() {
-        pictureView.updateArrays(linesGroup);
+        pictureView.updateLines(linesGroup);
     };
 
     this.undo = function() {
@@ -60,7 +60,7 @@ function PaintModel() {
     this.redo = function () {
         pictureView.clear();
         linesGroup = linesGroup.concat(lastLine);
-        pictureView.updateArrays(linesGroup);
+        pictureView.updateLines(linesGroup);
     };
 
     this.setLastLine = function() {
