@@ -22,7 +22,7 @@ $(window).load(function () {
 
     var isDown,
         $drawPanel = $('#drawPanel'),
-        $controls = $('#fullScreen, #save, #undo, #new'),
+        $controls = $('#fullScreen, #save, #undo, #new, #open'),
         $control = $('#control');
 
     $drawPanel.mousedown(
