@@ -256,7 +256,10 @@ body  {
 }
 
 #dialog-confirm {
-    display: none;
     width: auto;
     position: absolute;
+}
+
+#download {
+    display: none;
 }

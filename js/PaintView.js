@@ -14,18 +14,6 @@ function PaintView() {
         }
     };
 
-    //this.updateArrays = function(from, to) {
-    //    for (var i = 0; i < from.length; i++) {
-    //        $('canvas').drawLine({
-    //            strokeStyle: from[i].getColor(),
-    //            strokeWidth: 7,
-    //            rounded: true,
-    //            x1: from[i].getX() + $(window).width()/2 - 7, y1: - from[i].getY() + $(window).height()/2 - 7,
-    //            x2: to[i].getX() + $(window).width()/2 - 7, y2: - to[i].getY() + $(window).height()/2 - 7
-    //        });
-    //    }
-    //};
-
     this.clear = function() {
         $('canvas').clearCanvas()
     };

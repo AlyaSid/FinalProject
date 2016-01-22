@@ -36,8 +36,6 @@ function PaintModel() {
         }
 
         pictureView.updateArrays(lineArray);
-        //pictureView.updateArrays(this.getPoints(prevPoint.getX(), prevPoint.getY()), this.getPoints(x, y));
-        //prevPoint.setColor(penColor);
 		prevPoint.setX(x);
 		prevPoint.setY(y);
     };

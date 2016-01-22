@@ -32,6 +32,7 @@ $(window).load(function () {
 			point.setX(event.clientX - $(window).width()/2);
 			point.setY(- event.clientY + $(window).height()/2) ;
 			picture.setPrevPoint(point);
+            $('#undo').find('span').text('Undo');
         }
     );
 
@@ -265,30 +266,72 @@ $(window).load(function () {
             }
     });
 
-    //$('#save').click(
-    //    var dialog = $('<div/>', {
-    //        id: 'dialog-confirm',
-    //        title:'Сохранение...'
-    //    });
-    //
-    //    $('body').append(dialog);
-    //
-    //    $( "#dialog-confirm" ).dialog({
-    //        resizable: false,
-    //        width:350,
-    //        modal: true,
-    //        buttons: {
-    //            "Locally": function() {
-    //                $( this ).dialog( "close" );
-    //            },
-    //            "Remote": function() {
-    //                $( this ).dialog( "close" );
-    //            },
-    //            "Cancel": function() {
-    //                $( this ).dialog( "close" );
-    //            }
-    //        }
-    //    })
-    //);
+    var downloadCanvas = function(link, canvasId, filename) {
+        link.href = document.getElementById(canvasId).toDataURL();
+        link.download = filename;
+    };
+
+    $('#dialog-confirm').dialog({
+        autoOpen:false,
+        resizable: false,
+        width:350,
+        modal: true,
+        buttons:
+            [
+                { text:'Locally',
+                    click:function() {
+                        $('#download').href = document.getElementById('drawPanel').toDataURL();
+                        console.log( $('#download').href);
+                        $('#download').download = 'test.png';
+                        console.log( $('#download').download);
+                    }
+                },
+                 {text:'Remote',
+                     click:function() {
+                         $('#download').click(downloadCanvas(this, 'drawPanel', 'test.png'));
+                         console.log('remote');
+                     }
+                 },
+                {text:'Cancel',
+                    click:function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            ]
+        // {
+        //    "Locally" : function() {
+        //        $('#dl').click(dlCanvas);
+        //        $( this ).dialog( "close" );
+        //    },
+        //    "Remote" : function() {
+        //        $( this ).dialog( "close" );
+        //    },
+        //    "Cancel" : function() {
+        //        $( this ).dialog( "close" );
+        //    }
+        //}
+    });
+
+
+    //var dlCanvas = function() {
+    //    var canvas = document.getElementById("drawPanel");
+    //    var dt = canvas.toDataURL('image/png');
+    //    dt = dt.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
+    //    dt = dt.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Canvas.png');
+    //    console.log('ok');
+    //    this.href = dt;
+    //};
+
+    function downloadCanvas(link, canvasId, filename) {
+        link.href = document.getElementById(canvasId).toDataURL();
+        console.log(link.href);
+        link.download = filename;
+        console.log(link.download);
+    }
+
+    $("#save").click(function(e) {
+        e.preventDefault();
+        $('#dialog-confirm').dialog('open');
+    });
 
 });
