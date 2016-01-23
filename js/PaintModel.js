@@ -5,13 +5,12 @@ function PaintModel() {
         symmetry = 0,
         pictureView = null,
         cursorPoints = [],
-        picturePoints = [],
-        background = null,
-        penColor = "rgb(255, 255, 255)",
+        background = 'rgb(0, 0, 0)',
+        penColor = 'rgb(255, 255, 255)',
 	    prevPoint = null,
         lineArray = [],
         linesGroup = [],
-        lastLine = null;
+        lastLine = [];
 
     this.start = function(view) {
         pictureView = view;
@@ -72,6 +71,10 @@ function PaintModel() {
     this.setBackground = function(color) {
         background = color;
         pictureView.changeBackground(color);
+    };
+
+    this.getBackground = function(color) {
+        return background;
     };
 
     this.setPenColor = function(color) {

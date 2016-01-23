@@ -1,6 +1,7 @@
 function PaintView() {
     this.changeBackground = function (color) {
-        $('#drawPanel, #modePanel').animate({'backgroundColor': color},400);
+        $('#modePanel').animate({'backgroundColor': color},400);
+        $('canvas').animate({'backgroundColor': color},400);
     };
 
     this.updateCursor = function(points) {

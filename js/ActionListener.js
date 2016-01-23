@@ -266,6 +266,32 @@ $(window).load(function () {
             }
     });
 
+    function canvasToImage(backgroundColor)
+    {
+        var canvas = document.getElementById('drawPanel');
+        var context = canvas.getContext("2d");
+        
+        var w = canvas.width;
+        var h = canvas.height;
+        var data;
+        if(backgroundColor)
+        {
+            data = context.getImageData(0, 0, w, h);
+            var compositeOperation = context.globalCompositeOperation;
+            context.globalCompositeOperation = "destination-over";
+            context.fillStyle = backgroundColor;
+            context.fillRect(0,0,w,h);
+        }
+        var imageData = canvas.toDataURL("image/png");
+        if(backgroundColor)
+        {
+            context.clearRect (0,0,w,h);
+            context.putImageData(data, 0,0);
+            context.globalCompositeOperation = compositeOperation;
+        }
+        return imageData;
+    }
+
     $('#dialog-confirm').dialog({
         autoOpen:false,
         resizable: false,
@@ -275,15 +301,15 @@ $(window).load(function () {
             [
                 { text:'Locally',
                     click:function() {
-                        $('#download').attr('href', document.getElementById('drawPanel').toDataURL());
+                        $('#download').attr('href', canvasToImage(picture.getBackground()));
                         $('#download').attr('download', 'test.png');
                         document.getElementById("download").click();
+                        $( this ).dialog( "close" );
                     }
                 },
                  {text:'Remote',
                      click:function() {
-                         $('#download').click(downloadCanvas(this, 'drawPanel', 'test.png'));
-                         console.log('remote');
+                         $( this ).dialog( "close" );
                      }
                  },
                 {text:'Cancel',
