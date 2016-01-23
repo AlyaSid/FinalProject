@@ -1,42 +1,49 @@
-var resizeCanvas = function() {
-    var width = $(window).width();
-    var height = $(window).height();
-
-    var c = $("canvas"),
-        ctx = c[0].getContext('2d');
-
-    ctx.canvas.height = height;
-    ctx.canvas.width = width;
-
-    picture.reDraw();
-};
+var pictureView = new PaintView();
+var picture = new PaintModel();
+picture.start(pictureView);
 
 $(window).resize(function () {
-    resizeCanvas();
+    handleBuffer();
+    pictureView.resizeAndRedraw();
 });
 
+var undo = false;
+var handleBuffer = function() {
+    if (!undo) {
+        pictureView.flushBuffer();
+    }
+    var $undo = $('#undo');
+    $undo.find('span').text('Undo');
+    $undo.find('i').removeClass("flip-icon");
+
+    undo = false;
+    pictureView.clearBuffer();
+    pictureView.showBuffer();
+};
+
 $(window).load(function () {
-    resizeCanvas();
+    pictureView.resize();
 
     $("<div></div>").attr('id', 'point').appendTo('body');
 
     var isDown,
-        $drawPanel = $('#drawPanel'),
+        $cursorPanel = $('#cursorPanel'),
         $controls = $('#fullScreen, #save, #undo, #new, #open'),
         $control = $('#control');
-
-    $drawPanel.mousedown(
+		
+    $cursorPanel.mousedown(
         function(event) {
+			handleBuffer();
+
             isDown = true;
 			var point = new Point();
 			point.setX(event.clientX - $(window).width()/2);
 			point.setY(- event.clientY + $(window).height()/2) ;
 			picture.setPrevPoint(point);
-            $('#undo').find('span').text('Undo');
         }
     );
 
-    $drawPanel.mousemove(function (event) {
+    $cursorPanel.mousemove(function (event) {
         var posCursorX = (event.clientX - $(window).width()/2);
         var posCursorY = (- event.clientY + $(window).height()/2);
         if (isDown) {
@@ -45,17 +52,16 @@ $(window).load(function () {
         picture.drawCursor(posCursorX, posCursorY);
     });
 
-    $drawPanel.mouseup(
+    $cursorPanel.mouseup(
         function() {
             isDown = false;
 			picture.resetPrevPoint();
-            picture.setLastLine();
         }
     );
 
     $controls.mousemove( function (event){
         event.stopPropagation();
-        $('.cursorPoints').css('display','none');
+        pictureView.clearCursor();
     });
 
     $controls.hover(
@@ -86,7 +92,7 @@ $(window).load(function () {
 
     $control.mousemove( function (event){
         event.stopPropagation();
-        $('.cursorPoints').css('display','none');
+        pictureView.clearCursor();
     });
 
     $control.hover(
@@ -117,7 +123,7 @@ $(window).load(function () {
 
     $('#modePanel').mousemove( function (event){
         event.stopPropagation();
-        $('.cursorPoints').css('display','none');
+        pictureView.clearCursor();
     });
 
     $('#backgroundColors div, #penColors div').hover(
@@ -132,14 +138,14 @@ $(window).load(function () {
             $(this).css({opacity: 0.7, width: newWidth, height: newHeight});
         });
 
-    $('#backgroundColors div').click(
+    $('#backgroundColors').find('div').click(
         function() {
             var color = $(this).css('backgroundColor');
-            picture.setBackground(color);
+            picture.setBackgroundColor(color);
         }
     );
 
-    $('#penColors div').click(
+    $('#penColors').find('div').click(
         function() {
             var color = $(this).css('backgroundColor');
             picture.setPenColor(color);
@@ -224,11 +230,15 @@ $(window).load(function () {
     $('#undo').click(
         function() {
             if ($(this).find('span').text() === 'Undo') {
-                picture.undo();
+				undo = true;
+				pictureView.hideBuffer();
                 $(this).find('span').text('Redo');
+                $(this).find('i').addClass("flip-icon");
             } else {
-                picture.redo();
+				undo = false;
+				pictureView.showBuffer();
                 $(this).find('span').text('Undo');
+                $(this).find('i').removeClass("flip-icon");
             }
         }
     );
@@ -239,6 +249,7 @@ $(window).load(function () {
     $('body').append(userText);
 
     var clear = function(){
+        handleBuffer();
         pictureView.clear();
         userText.text('You can use SPACE to start a new.');
         userText.css({'left': $(window).innerWidth()/2 - userText.width()/2, 'top': $(window).innerHeight()/2});
@@ -254,7 +265,6 @@ $(window).load(function () {
     $('#new').click(
         function() {
             clear();
-            picture.memoryClear();
         }
     );
 
@@ -262,35 +272,8 @@ $(window).load(function () {
         function(e) {
             if (e.keyCode == 32) {
                 clear();
-                picture.memoryClear();
             }
     });
-
-    function canvasToImage(backgroundColor)
-    {
-        var canvas = document.getElementById('drawPanel');
-        var context = canvas.getContext("2d");
-        
-        var w = canvas.width;
-        var h = canvas.height;
-        var data;
-        if(backgroundColor)
-        {
-            data = context.getImageData(0, 0, w, h);
-            var compositeOperation = context.globalCompositeOperation;
-            context.globalCompositeOperation = "destination-over";
-            context.fillStyle = backgroundColor;
-            context.fillRect(0,0,w,h);
-        }
-        var imageData = canvas.toDataURL("image/png");
-        if(backgroundColor)
-        {
-            context.clearRect (0,0,w,h);
-            context.putImageData(data, 0,0);
-            context.globalCompositeOperation = compositeOperation;
-        }
-        return imageData;
-    }
 
     $('#dialog-confirm').dialog({
         autoOpen:false,
@@ -301,15 +284,17 @@ $(window).load(function () {
             [
                 { text:'Locally',
                     click:function() {
-                        $('#download').attr('href', canvasToImage(picture.getBackground()));
-                        $('#download').attr('download', 'test.png');
-                        document.getElementById("download").click();
-                        $( this ).dialog( "close" );
+                        handleBuffer();
+                        var aDownload = document.getElementById("download");
+                        aDownload.href = pictureView.drawPanelToImage(picture.getBackgroundColor());
+                        aDownload.download = 'test.png';
+                        aDownload.click();
                     }
                 },
                  {text:'Remote',
                      click:function() {
-                         $( this ).dialog( "close" );
+                         //$('#download').click(downloadCanvas(this, 'drawPanel', 'test.png'));
+                         console.log('remote');
                      }
                  },
                 {text:'Cancel',

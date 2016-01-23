@@ -14,14 +14,33 @@
 body  {
     overflow: hidden;
 }
+.flip-icon {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -ms-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+     transform: rotateY(180deg);
+}
+
+#drawPanelMain {
+    background-color: black;
+    z-index: 1;
+}
 
 #drawPanel {
+    z-index: 2;
+}
+
+#cursorPanel {
+    z-index: 3;
+}
+
+#backgroundPanel, #drawPanelMain, #drawPanel, #cursorPanel {
     min-width: 100%;
     min-height: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    background-color: black;
 }
 
 #controlPanel {
@@ -30,6 +49,7 @@ body  {
     position: absolute;
     top:0;
     left:0;
+    z-index: 4;
 }
 
 #controlPanel div {
@@ -250,6 +270,7 @@ body  {
 
 #userText {
     position: absolute;
+    z-index: 1000;
     top:0;
     left:0;
     color: darkgrey;

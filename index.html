@@ -8,9 +8,9 @@
 
     <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./jquery-ui-1.11.4.custom/jquery-ui.min.css" />
-    <link rel="stylesheet" href="./jquery-ui-1.11.4.custom/jquery-ui.theme.min.css" />
-    <link rel="stylesheet" type="text/css"  href="./css/style.css">
+    <link rel="stylesheet" href="./jquery-ui-1.11.4.custom/jquery-ui.min.css"/>
+    <link rel="stylesheet" href="./jquery-ui-1.11.4.custom/jquery-ui.theme.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.min.js"></script>
@@ -18,88 +18,88 @@
     <script type="text/javascript" src="./jquery.fullscreen-master/release/jquery.fullscreen.min.js"></script>
     <script src="./js/jcanvas.min.js"></script>
     <script src="./js/Point.js" type="text/javascript"></script>
-    <script src="./js/Line.js" type="text/javascript"></script>
     <script src="./js/PaintView.js" type="text/javascript"></script>
     <script src="./js/PaintModel.js" type="text/javascript"></script>
-    <script src="./js/main.js" type="text/javascript"></script>
     <script src="./js/ActionListener.js" type="text/javascript"></script>
 </head>
 <body>
-    <canvas id="drawPanel" style="position: absolute; top: 0; left: 0"></canvas>
+    <canvas id="drawPanelMain"></canvas>
+    <canvas id="drawPanel"></canvas>
+    <canvas id="cursorPanel"></canvas>
     <div id="dialog-confirm" title="Saving..."></div>
     <a id="download">Download as image</a>
-        <div id="controlPanel">
-            <div id="fullScreen" class="fullScreenOff">
-                <i class="fa fa-arrows-alt fa-2x"></i>
-                <span>Full Screen</span>
-            </div>
-            <div id="open">
-                <i class="fa fa-folder-open fa-2x"></i>
-                <span>Open</span>
-            </div>
-            <div id="save">
-                <i class="fa fa-camera fa-2x"></i>
-                <span>Save</span>
-            </div>
-            <div id="control">
-                <i class="fa fa-circle fa-2x"></i>
-                <span>Control</span>
-            </div>
-            <div id="undo">
-                <i class="fa fa-undo fa-2x"></i>
-                <span>Undo</span>
-            </div>
-            <div id="new">
-                <i class="fa fa-file fa-2x"></i>
-                <span>New</span>
+    <div id="controlPanel">
+        <div id="fullScreen" class="fullScreenOff">
+            <i class="fa fa-arrows-alt fa-2x"></i>
+            <span>Full Screen</span>
+        </div>
+        <div id="open">
+            <i class="fa fa-folder-open fa-2x"></i>
+            <span>Open</span>
+        </div>
+        <div id="save">
+            <i class="fa fa-camera fa-2x"></i>
+            <span>Save</span>
+        </div>
+        <div id="control">
+            <i class="fa fa-circle fa-2x"></i>
+            <span>Control</span>
+        </div>
+        <div id="undo">
+            <i class="fa fa-undo fa-2x"></i>
+            <span>Undo</span>
+        </div>
+        <div id="new">
+            <i class="fa fa-file fa-2x"></i>
+            <span>New</span>
+        </div>
+    </div>
+    <div id="modePanel">
+        <div id="background">
+            <span>Background Color</span>
+            <div id="backgroundColors">
+                <div id="black"></div>
+                <div id="white"></div>
+                <div id="grey"></div>
+                <div id="lightBlue"></div>
+                <div id="yellow"></div>
+                <div id="lightGreen"></div>
+                <div id="pink"></div>
             </div>
         </div>
-        <div id="modePanel">
-            <div id="background">
-                <span>Background Color</span>
-                <div id="backgroundColors">
-                    <div id="black"></div>
-                    <div id="white"></div>
-                    <div id="grey"></div>
-                    <div id="lightBlue"></div>
-                    <div id="yellow"></div>
-                    <div id="lightGreen"></div>
-                    <div id="pink"></div>
-                </div>
-            </div>
-            <div id="color">
-                <span>Pen Color</span>
-                <div id="penColors">
-                    <div id="blackPen"></div>
-                    <div id="whitePen"></div>
-                    <div id="greyPen"></div>
-                    <div id="lightBluePen"></div>
-                    <div id="yellowPen"></div>
-                    <div id="pinkPen"></div>
-                    <div id="redPen"></div>
-                    <div id="bluePen"></div>
-                    <div id="greenPen"></div>
-                    <div id="orangePen"></div>
-                    <div id="violetPen"></div>
-                </div>
-            </div>
-            <div id="symmetry">
-            </div>
-            <div id="symmetryValue"></div>
-            <div id="mirrorMode">
-                <div class="description">Mirror across center</div>
-                <div class="state">
-                    <span class="state-on">On</span>
-                    <span class="state-off">Off</span>
-                </div>
-            </div>
-            <div id="spiralMode">
-                <div class="description">Spiral towards center</div>
-                <div class="state">
-                    <span class="state-on">On</span>
-                    <span class="state-off">Off</span>
-                </div>
+        <div id="color">
+            <span>Pen Color</span>
+            <div id="penColors">
+                <div id="blackPen"></div>
+                <div id="whitePen"></div>
+                <div id="greyPen"></div>
+                <div id="lightBluePen"></div>
+                <div id="yellowPen"></div>
+                <div id="pinkPen"></div>
+                <div id="redPen"></div>
+                <div id="bluePen"></div>
+                <div id="greenPen"></div>
+                <div id="orangePen"></div>
+                <div id="violetPen"></div>
             </div>
         </div>
+        <div id="symmetry">
+        </div>
+        <div id="symmetryValue"></div>
+        <div id="mirrorMode">
+            <div class="description">Mirror across center</div>
+            <div class="state">
+                <span class="state-on">On</span>
+                <span class="state-off">Off</span>
+            </div>
+        </div>
+        <div id="spiralMode">
+            <div class="description">Spiral towards center</div>
+            <div class="state">
+                <span class="state-on">On</span>
+                <span class="state-off">Off</span>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
