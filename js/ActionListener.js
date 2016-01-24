@@ -25,15 +25,24 @@ var handleBuffer = function() {
     pictureView.showBuffer();
 };
 
-$(window).load(function () {
+$(document).ready(function () {
     pictureView.resize();
+
+    $('#meetingMessage').mousemove(function() {
+        $(this).delay(1000).fadeOut(1000);
+        $('#controlPanel').css('display', 'block');
+    });
 
     refreshList();
 
     var isDown,
         $cursorPanel = $('#cursorPanel'),
         $controls = $('#fullScreen, #save, #undo, #new, #open'),
-        $control = $('#control');
+        $control = $('#control'),
+        $fileName = $('#fileName'),
+        $name = $('#name'),
+        $validate = $('.validate'),
+        $modePanel = $('#modePanel');
 
     $cursorPanel.mousedown(
         function(event) {
@@ -125,7 +134,7 @@ $(window).load(function () {
                     });
         });
 
-    $('#modePanel').mousemove( function (event){
+    $modePanel.mousemove( function (event){
         event.stopPropagation();
         pictureView.clearCursor();
     });
@@ -199,16 +208,16 @@ $(window).load(function () {
         }
     );
 
-    $('#modePanel').mouseleave(
+    $modePanel.mouseleave(
         function() {
-            $('#modePanel').fadeOut(300);
+            $(this).fadeOut(300);
         }
     );
 
     $('#fullScreen').click(function() {
-        if ($('#fullScreen').hasClass('fullScreenOff')) {
+        if ($(this).hasClass('fullScreenOff')) {
             $('body').fullscreen();
-            $('#fullScreen').removeClass('fullScreenOff');
+            $(this).removeClass('fullScreenOff');
             return false;
         } else {
             $.fullscreen.exit();
@@ -262,7 +271,7 @@ $(window).load(function () {
                 'opacity': 1
             }, 1000)
             .animate({
-                'opacity': 0,
+                'opacity': 0
             }, 1000)
     };
 
@@ -286,6 +295,7 @@ $(window).load(function () {
         imageWidth,
         picturesNames = [];
 
+
     $('#dialog-save').dialog({
         autoOpen:false,
         resizable: false,
@@ -296,13 +306,13 @@ $(window).load(function () {
                 { text:'Locally',
                     click:function(event) {
                         handleBuffer();
-                        $('#name').removeClass( "ui-state-error" );
+                        $name.removeClass( "ui-state-error" );
                         var aDownload = document.getElementById("download");
                         aDownload.href = pictureView.drawPanelToImage(picture.getBackgroundColor());
-                        var pictureName = $('#name').val();
+                        var pictureName = $name.val();
                         if (pictureName == '') {
-                            $('#name').addClass( "ui-state-error" );
-                            $('.validate').text('Please enter the name');
+                            $name.addClass( "ui-state-error" );
+                            $validate.text('Please enter the name');
                             event.preventDefault();
                         } else {
                             aDownload.download = pictureName + '.png';
@@ -314,16 +324,16 @@ $(window).load(function () {
                 {text:'Remote',
                     click:function() {
                         handleBuffer();
-                        $('#name').removeClass( "ui-state-error" );
-                        $('.validate').text('Enter the file name.');
-                        imageName = $('#name').val();
+                        $name.removeClass( "ui-state-error" );
+                        $validate.text('Enter the file name.');
+                        imageName = $name.val();
                         if (imageName == '') {
-                            $('#name').addClass( "ui-state-error" );
-                            $('.validate').text('Please enter the name.');
+                            $name.addClass( "ui-state-error" );
+                            $validate.text('Please enter the name.');
                             event.preventDefault();
                         } else if ($.inArray(imageName, picturesNames) !== -1){
-                            $('#name').addClass( "ui-state-error" );
-                            $('.validate').text('This name already exists.');
+                            $name.addClass( "ui-state-error" );
+                            $validate.text('This name already exists.');
                             event.preventDefault();
                         } else {
                             image = pictureView.drawPanelToImage();
@@ -340,8 +350,8 @@ $(window).load(function () {
                 },
                 {text:'Cancel',
                     click:function() {
-                        $('#name').removeClass( "ui-state-error" );
-                        $('.validate').text('Enter the file name.');
+                        $name.removeClass( "ui-state-error" );
+                        $validate.text('Enter the file name.');
                         $( this ).dialog( "close" );
                     }
                 }
@@ -466,6 +476,8 @@ $(window).load(function () {
         $('#dialog-open').dialog('open');
     });
 
+
+
     $('#dialog-open').dialog({
         autoOpen:false,
         resizable: false,
@@ -478,13 +490,13 @@ $(window).load(function () {
                         handleBuffer();
                         pictureView.clear();
 
-                        $('#fileName').removeClass( "ui-state-error" );
-                        $('.validate').text('Enter the file name.');
-                        imageName = $('#fileName').val();
+                        $fileName.removeClass( "ui-state-error" );
+                        $validate.text('Enter the file name.');
+                        imageName = $fileName.val();
 
                         if ($.inArray(imageName, picturesNames) == -1){
-                            $('#fileName').addClass( "ui-state-error" );
-                            $('.validate').text('This file doesn\'t exist.');
+                            $fileName.addClass( "ui-state-error" );
+                            $validate.text('This file doesn\'t exist.');
                             event.preventDefault();
                         } else {
                             var image;
@@ -495,15 +507,15 @@ $(window).load(function () {
                             }
                             pictureView.openImage(image);
                             picture.setBackgroundColor(image.background);
-                            
+
                             $(this).dialog("close");
                         }
                     }
                 },
                 {text:'Cancel',
                     click:function() {
-                        $('#fileName').removeClass( "ui-state-error" );
-                        $('.validate').text('Enter the file name.');
+                        $fileName.removeClass( "ui-state-error" );
+                        $validate.text('Enter the file name.');
                         $( this ).dialog( "close" );
                     }
                 }
