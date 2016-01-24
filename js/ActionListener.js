@@ -28,8 +28,6 @@ var handleBuffer = function() {
 $(window).load(function () {
     pictureView.resize();
 
-    $("<div></div>").attr('id', 'point').appendTo('body');
-
     var isDown,
         $cursorPanel = $('#cursorPanel'),
         $controls = $('#fullScreen, #save, #undo, #new, #open'),
@@ -279,12 +277,11 @@ $(window).load(function () {
             }
         });
 
-    var image,
-        imageName,
-        imageBackground,
-        ctx,
-        imageHeight,
-        imageWidth;
+    var image = pictureView.drawPanelToImage(),
+        imageName = $('#name').val(),
+        imageBackground = picture.getBackgroundColor(),
+        imageHeight = pictureView.getDimension()[0],
+        imageWidth = pictureView.getDimension()[1];
 
     $('#dialog-save').dialog({
         autoOpen:false,
@@ -299,7 +296,6 @@ $(window).load(function () {
                         $('#name').removeClass( "ui-state-error" );
                         var aDownload = document.getElementById("download");
                         aDownload.href = pictureView.drawPanelToImage(picture.getBackgroundColor());
-                        var pictureName = $('#name').val();
                         if (pictureName == '') {
                             $('#name').addClass( "ui-state-error" );
                             $('.validate').text('Please enter the name');
@@ -313,6 +309,7 @@ $(window).load(function () {
                 },
                 {text:'Remote',
                     click:function() {
+                        handleBuffer();
                         $('#name').removeClass( "ui-state-error" );
                         imageName = $('#name').val();
                         if (imageName == '') {
@@ -320,15 +317,7 @@ $(window).load(function () {
                             $('.validate').text('Please enter the name');
                             event.preventDefault();
                         } else {
-                            image = pictureView.drawPanelToImage();
-                            imageBackground = picture.getBackgroundColor();
-
-                            ctx = $('#drawPanelMain')[0].getContext('2d');
-                            imageHeight = ctx.canvas.height;
-                            imageWidth = ctx.canvas.width;
-
                             sendPicture();
-
                             $( this ).dialog( "close" );
                         }
                     }
@@ -474,19 +463,8 @@ $(window).load(function () {
                                 picture = pictures[i];
                             }
                         }
-                        var img = new Image();
-                        var $drawPanelMain = $('#drawPanelMain');
-                        var ctx = $drawPanelMain[0].getContext('2d');
-                        var prevHeight = ctx.canvas.height;
-                        var prevWidth = ctx.canvas.width;
+                        pictureView.openImage(picture);
 
-                        img.onload = function() {
-                            document.getElementById("drawPanelMain")
-                                .getContext("2d")
-                                .drawImage(this , - (prevWidth - picture.width) / 2, - (prevHeight - picture.height) / 2);
-                        };
-
-                        img.src = picture.image;
                         $(this).dialog( "close" );
                     }
                 },

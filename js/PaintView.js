@@ -21,6 +21,34 @@ function PaintView() {
         ctx.canvas.width = width;
     };
 
+    this.getDimension = function() {
+        var ctx = $('#drawPanelMain')[0].getContext('2d'),
+            dimension = [];
+        dimension.push(ctx.canvas.height);
+        dimension.push(ctx.canvas.width);
+
+        return dimension;
+    };
+
+    this.openImage = function(image) {
+        var img = new Image();
+        var $drawPanelMain = $('#drawPanelMain');
+        var ctx = $drawPanelMain[0].getContext('2d');
+        var prevHeight = ctx.canvas.height;
+        var prevWidth = ctx.canvas.width;
+
+        img.onload = function() {
+            document.getElementById("drawPanelMain")
+                .getContext("2d")
+                .drawImage(this, (prevWidth - image.width) / 2, (prevHeight - image.height) / 2);
+        };
+
+        img.src = image.image;
+
+        this.changeBackground(image.background);
+
+    };
+
     this.resizeAndRedraw = function() {
         var $drawPanelMain = $('#drawPanelMain');
         var ctx = $drawPanelMain[0].getContext('2d');
@@ -43,6 +71,8 @@ function PaintView() {
             prevHeight > height ? 0 : (height - prevHeight) / 2
         );
     };
+
+
 
     this.clear = function() {
         $('#drawPanelMain').clearCanvas();
