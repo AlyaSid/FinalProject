@@ -276,11 +276,6 @@ body  {
     color: darkgrey;
 }
 
-#dialog-confirm {
-    width: auto;
-    position: absolute;
-}
-
 #download {
     display: none;
 }

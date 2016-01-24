@@ -2,6 +2,10 @@ var pictureView = new PaintView();
 var picture = new PaintModel();
 picture.start(pictureView);
 
+var AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
+var pictures;
+var updatePassword;
+
 $(window).resize(function () {
     handleBuffer();
     pictureView.resizeAndRedraw();
@@ -30,16 +34,16 @@ $(window).load(function () {
         $cursorPanel = $('#cursorPanel'),
         $controls = $('#fullScreen, #save, #undo, #new, #open'),
         $control = $('#control');
-		
+
     $cursorPanel.mousedown(
         function(event) {
-			handleBuffer();
+            handleBuffer();
 
             isDown = true;
-			var point = new Point();
-			point.setX(event.clientX - $(window).width()/2);
-			point.setY(- event.clientY + $(window).height()/2) ;
-			picture.setPrevPoint(point);
+            var point = new Point();
+            point.setX(event.clientX - $(window).width()/2);
+            point.setY(- event.clientY + $(window).height()/2) ;
+            picture.setPrevPoint(point);
         }
     );
 
@@ -55,7 +59,7 @@ $(window).load(function () {
     $cursorPanel.mouseup(
         function() {
             isDown = false;
-			picture.resetPrevPoint();
+            picture.resetPrevPoint();
         }
     );
 
@@ -88,7 +92,7 @@ $(window).load(function () {
                             .find('span').fadeOut(300)
                             .dequeue('fx');
                     });
-    });
+        });
 
     $control.mousemove( function (event){
         event.stopPropagation();
@@ -119,7 +123,7 @@ $(window).load(function () {
                             .find('span').fadeOut(300)
                             .dequeue('fx');
                     });
-    });
+        });
 
     $('#modePanel').mousemove( function (event){
         event.stopPropagation();
@@ -157,9 +161,9 @@ $(window).load(function () {
             $(this)
                 .stop()
                 .queue('fx',
-                function() {
-                    $(this).animate({color: '#EEEEEE'},200).dequeue('fx');;
-                });
+                    function() {
+                        $(this).animate({color: '#EEEEEE'},200).dequeue('fx');;
+                    });
         },
         function() {
             $(this)
@@ -191,7 +195,7 @@ $(window).load(function () {
                         $('#modePanel')
                             .fadeToggle(300)
                             .dequeue('fx');
-                        });
+                    });
         }
     );
 
@@ -230,13 +234,13 @@ $(window).load(function () {
     $('#undo').click(
         function() {
             if ($(this).find('span').text() === 'Undo') {
-				undo = true;
-				pictureView.hideBuffer();
+                undo = true;
+                pictureView.hideBuffer();
                 $(this).find('span').text('Redo');
                 $(this).find('i').addClass("flip-icon");
             } else {
-				undo = false;
-				pictureView.showBuffer();
+                undo = false;
+                pictureView.showBuffer();
                 $(this).find('span').text('Undo');
                 $(this).find('i').removeClass("flip-icon");
             }
@@ -273,9 +277,16 @@ $(window).load(function () {
             if (e.keyCode == 32) {
                 clear();
             }
-    });
+        });
 
-    $('#dialog-confirm').dialog({
+    var image,
+        imageName,
+        imageBackground,
+        ctx,
+        imageHeight,
+        imageWidth;
+
+    $('#dialog-save').dialog({
         autoOpen:false,
         resizable: false,
         width:350,
@@ -283,20 +294,45 @@ $(window).load(function () {
         buttons:
             [
                 { text:'Locally',
-                    click:function() {
+                    click:function(event) {
                         handleBuffer();
+                        $('#name').removeClass( "ui-state-error" );
                         var aDownload = document.getElementById("download");
                         aDownload.href = pictureView.drawPanelToImage(picture.getBackgroundColor());
-                        aDownload.download = 'test.png';
-                        aDownload.click();
+                        var pictureName = $('#name').val();
+                        if (pictureName == '') {
+                            $('#name').addClass( "ui-state-error" );
+                            $('.validate').text('Please enter the name');
+                            event.preventDefault();
+                        } else {
+                            aDownload.download = pictureName + '.png';
+                            aDownload.click();
+                            $( this ).dialog( "close" );
+                        }
                     }
                 },
-                 {text:'Remote',
-                     click:function() {
-                         //$('#download').click(downloadCanvas(this, 'drawPanel', 'test.png'));
-                         console.log('remote');
-                     }
-                 },
+                {text:'Remote',
+                    click:function() {
+                        $('#name').removeClass( "ui-state-error" );
+                        imageName = $('#name').val();
+                        if (imageName == '') {
+                            $('#name').addClass( "ui-state-error" );
+                            $('.validate').text('Please enter the name');
+                            event.preventDefault();
+                        } else {
+                            image = pictureView.drawPanelToImage();
+                            imageBackground = picture.getBackgroundColor();
+
+                            ctx = $('#drawPanelMain')[0].getContext('2d');
+                            imageHeight = ctx.canvas.height;
+                            imageWidth = ctx.canvas.width;
+
+                            sendPicture();
+
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                },
                 {text:'Cancel',
                     click:function() {
                         $( this ).dialog( "close" );
@@ -305,9 +341,161 @@ $(window).load(function () {
             ]
     });
 
+    function sendPicture()
+    {
+        updatePassword = Math.random();
+        $.ajax(
+            {
+                url : AjaxHandlerScript,
+                type : 'POST',
+                data : { f : 'LOCKGET', n : 'ALYA_PICTURE_GALLERY',
+                    p : updatePassword },
+                cache : false,
+                success : addPicture,
+                error : errorHandler
+            }
+        );
+    }
+
+    function addPicture(result)
+    {
+        if ( result.error!=undefined )
+            alert(result.error);
+        else
+        {
+            pictures = [];
+            if ( result.result != "" )
+            {
+                pictures = JSON.parse(result.result);
+            }
+
+            pictures.push( {name:imageName, image: image, background: imageBackground, width: imageWidth, height: imageHeight});
+
+            $.ajax(
+                {
+                    url : AjaxHandlerScript,
+                    type : 'POST',
+                    data : { f : 'UPDATE', n : 'ALYA_PICTURE_GALLERY',
+                        v : JSON.stringify(pictures), p : updatePassword },
+                    cache : false,
+                    success : updateReady,
+                    error : errorHandler
+                }
+            );
+        }
+    }
+
+    function updateReady(result)
+    {
+        if ( result.error!=undefined )
+            console.log(result.error);
+    }
+
+    function errorHandler(jqXHR, statusStr, errorStr)
+    {
+        console.log(statusStr + ' ' + errorStr);
+    }
+
+    function refreshList()
+    {
+        $.ajax(
+            {
+                url : AjaxHandlerScript,
+                type : 'POST',
+                data : { f : 'READ', n : 'ALYA_PICTURE_GALLERY' },
+                cache : false,
+                success : readReady,
+                error : errorHandler
+            }
+        );
+    }
+
+    function escapeHTML(text)
+    {
+        if ( !text )
+            return text;
+        text=text.toString()
+            .split("&").join("&amp;")
+            .split("<").join("&lt;")
+            .split(">").join("&gt;")
+            .split('"').join("&quot;")
+            .split("'").join("&#039;");
+        return text;
+    }
+
+
+    function readReady(result)
+    {
+        if ( result.error!=undefined )
+            alert(result.error);
+        else
+        {
+            pictures = [];
+            if ( result.result!="" )
+            {
+                pictures = JSON.parse(result.result);
+            }
+
+            var list = '';
+            for ( var i = 0; i < pictures.length; i++ )
+            {
+                var picture = pictures[i];
+                list += escapeHTML(picture.name) + "<br />";
+            }
+            $('#pictureList').html(list);
+        }
+    }
+
     $("#save").click(function(e) {
         e.preventDefault();
-        $('#dialog-confirm').dialog('open');
+        $('#dialog-save').dialog('open');
+    });
+
+    $("#open").click(function(e) {
+        e.preventDefault();
+        refreshList();
+        $('#dialog-open').dialog('open');
+    });
+
+    $('#dialog-open').dialog({
+        autoOpen:false,
+        resizable: false,
+        width:350,
+        modal: true,
+        buttons:
+            [
+                { text:'Ok',
+                    click:function(event) {
+                        handleBuffer();
+                        imageName = $('#fileName').val();
+                        var picture;
+                        for (var i = 0; i < pictures.length; i++) {
+                            if(pictures[i].name == imageName) {
+                                picture = pictures[i];
+                            }
+                        }
+                        var img = new Image();
+                        var $drawPanelMain = $('#drawPanelMain');
+                        var ctx = $drawPanelMain[0].getContext('2d');
+                        var prevHeight = ctx.canvas.height;
+                        var prevWidth = ctx.canvas.width;
+
+                        img.onload = function() {
+                            document.getElementById("drawPanelMain")
+                                .getContext("2d")
+                                .drawImage(this , - (prevWidth - picture.width) / 2, - (prevHeight - picture.height) / 2);
+                        };
+
+                        img.src = picture.image;
+                        $(this).dialog( "close" );
+                    }
+                },
+                {text:'Cancel',
+                    click:function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            ]
     });
 
 });

@@ -26,7 +26,21 @@
     <canvas id="drawPanelMain"></canvas>
     <canvas id="drawPanel"></canvas>
     <canvas id="cursorPanel"></canvas>
-    <div id="dialog-confirm" title="Saving..."></div>
+    <div id="dialog-save" title="Saving...">
+        <p class="validate">Enter the file name.</p>
+        <form>
+            <label>File Name:</label>
+            <input type="text" id="name">
+        </form>
+    </div>
+    <div id="dialog-open" title="Open file...">
+        <p>Enter the file name.</p><br>
+        <div id="pictureList"></div>
+        <form>
+            <label>File Name:</label>
+            <input type="text" id="fileName">
+        </form>
+    </div>
     <a id="download">Download as image</a>
     <div id="controlPanel">
         <div id="fullScreen" class="fullScreenOff">
