@@ -29,7 +29,7 @@ $(document).ready(function () {
     pictureView.resize();
 
     $('#meetingMessage').mousemove(function() {
-        $(this).delay(1000).fadeOut(1000);
+        $(this).delay(4000).fadeOut(1000);
         $('#controlPanel').css('display', 'block');
     });
 

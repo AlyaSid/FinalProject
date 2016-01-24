@@ -24,6 +24,15 @@ body  {
     height: 100%;
 }
 
+#centerPhrase {
+    position: absolute;
+    font-style: italic;
+    z-index: 11;
+    top: 60%;
+    left: 50%;
+    font-size: 30px;
+}
+
 #centerHeader {
     position: absolute;
     z-index: 11;
