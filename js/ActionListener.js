@@ -3,7 +3,7 @@ var picture = new PaintModel();
 picture.start(pictureView);
 
 var AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
-var pictures;
+var pictures; //remote pictures
 var updatePassword;
 
 $(window).resize(function () {
@@ -27,6 +27,8 @@ var handleBuffer = function() {
 
 $(window).load(function () {
     pictureView.resize();
+
+    refreshList();
 
     var isDown,
         $cursorPanel = $('#cursorPanel'),
@@ -168,7 +170,7 @@ $(window).load(function () {
                 .stop()
                 .queue('fx',
                     function() {
-                        $(this).animate({color: '#696969'},200).dequeue('fx');;
+                        $(this).animate({color: '#A9A9A9'},200).dequeue('fx');;
                     });
         });
 
@@ -281,7 +283,8 @@ $(window).load(function () {
         imageName,
         imageBackground,
         imageHeight,
-        imageWidth;
+        imageWidth,
+        picturesNames = [];
 
     $('#dialog-save').dialog({
         autoOpen:false,
@@ -312,10 +315,15 @@ $(window).load(function () {
                     click:function() {
                         handleBuffer();
                         $('#name').removeClass( "ui-state-error" );
+                        $('.validate').text('Enter the file name.');
                         imageName = $('#name').val();
                         if (imageName == '') {
                             $('#name').addClass( "ui-state-error" );
-                            $('.validate').text('Please enter the name');
+                            $('.validate').text('Please enter the name.');
+                            event.preventDefault();
+                        } else if ($.inArray(imageName, picturesNames) !== -1){
+                            $('#name').addClass( "ui-state-error" );
+                            $('.validate').text('This name already exists.');
                             event.preventDefault();
                         } else {
                             image = pictureView.drawPanelToImage();
@@ -332,6 +340,8 @@ $(window).load(function () {
                 },
                 {text:'Cancel',
                     click:function() {
+                        $('#name').removeClass( "ui-state-error" );
+                        $('.validate').text('Enter the file name.');
                         $( this ).dialog( "close" );
                     }
                 }
@@ -434,9 +444,11 @@ $(window).load(function () {
             }
 
             var list = '';
+            picturesNames = [];
             for ( var i = 0; i < pictures.length; i++ )
             {
                 var image = pictures[i];
+                picturesNames.push(pictures[i].name);
                 list += escapeHTML(image.name) + "<br />";
             }
             $('#pictureList').html(list);
@@ -464,21 +476,34 @@ $(window).load(function () {
                 { text:'Ok',
                     click:function(event) {
                         handleBuffer();
-                        imageName = $('#fileName').val();
-                        var image;
-                        for (var i = 0; i < pictures.length; i++) {
-                            if(pictures[i].name == imageName) {
-                                image = pictures[i];
-                            }
-                        }
-                        pictureView.openImage(image);
-                        picture.setBackgroundColor(image.background);
+                        pictureView.clear();
 
-                        $(this).dialog( "close" );
+                        $('#fileName').removeClass( "ui-state-error" );
+                        $('.validate').text('Enter the file name.');
+                        imageName = $('#fileName').val();
+
+                        if ($.inArray(imageName, picturesNames) == -1){
+                            $('#fileName').addClass( "ui-state-error" );
+                            $('.validate').text('This file doesn\'t exist.');
+                            event.preventDefault();
+                        } else {
+                            var image;
+                            for (var i = 0; i < pictures.length; i++) {
+                                if (pictures[i].name == imageName) {
+                                    image = pictures[i];
+                                }
+                            }
+                            pictureView.openImage(image);
+                            picture.setBackgroundColor(image.background);
+                            
+                            $(this).dialog("close");
+                        }
                     }
                 },
                 {text:'Cancel',
                     click:function() {
+                        $('#fileName').removeClass( "ui-state-error" );
+                        $('.validate').text('Enter the file name.');
                         $( this ).dialog( "close" );
                     }
                 }
