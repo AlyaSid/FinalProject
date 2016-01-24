@@ -277,11 +277,11 @@ $(window).load(function () {
             }
         });
 
-    var image = pictureView.drawPanelToImage(),
-        imageName = $('#name').val(),
-        imageBackground = picture.getBackgroundColor(),
-        imageHeight = pictureView.getDimension()[0],
-        imageWidth = pictureView.getDimension()[1];
+    var image,
+        imageName,
+        imageBackground,
+        imageHeight,
+        imageWidth;
 
     $('#dialog-save').dialog({
         autoOpen:false,
@@ -296,6 +296,7 @@ $(window).load(function () {
                         $('#name').removeClass( "ui-state-error" );
                         var aDownload = document.getElementById("download");
                         aDownload.href = pictureView.drawPanelToImage(picture.getBackgroundColor());
+                        var pictureName = $('#name').val();
                         if (pictureName == '') {
                             $('#name').addClass( "ui-state-error" );
                             $('.validate').text('Please enter the name');
@@ -317,7 +318,14 @@ $(window).load(function () {
                             $('.validate').text('Please enter the name');
                             event.preventDefault();
                         } else {
+                            image = pictureView.drawPanelToImage();
+                            imageBackground = picture.getBackgroundColor();
+
+                            imageHeight = pictureView.getDimensions()[0];
+                            imageWidth = pictureView.getDimensions()[1];
+
                             sendPicture();
+
                             $( this ).dialog( "close" );
                         }
                     }
@@ -428,8 +436,8 @@ $(window).load(function () {
             var list = '';
             for ( var i = 0; i < pictures.length; i++ )
             {
-                var picture = pictures[i];
-                list += escapeHTML(picture.name) + "<br />";
+                var image = pictures[i];
+                list += escapeHTML(image.name) + "<br />";
             }
             $('#pictureList').html(list);
         }
@@ -457,13 +465,14 @@ $(window).load(function () {
                     click:function(event) {
                         handleBuffer();
                         imageName = $('#fileName').val();
-                        var picture;
+                        var image;
                         for (var i = 0; i < pictures.length; i++) {
                             if(pictures[i].name == imageName) {
-                                picture = pictures[i];
+                                image = pictures[i];
                             }
                         }
-                        pictureView.openImage(picture);
+                        pictureView.openImage(image);
+                        picture.setBackgroundColor(image.background);
 
                         $(this).dialog( "close" );
                     }

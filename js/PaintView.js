@@ -21,9 +21,9 @@ function PaintView() {
         ctx.canvas.width = width;
     };
 
-    this.getDimension = function() {
-        var ctx = $('#drawPanelMain')[0].getContext('2d'),
-            dimension = [];
+    this.getDimensions = function() {
+        ctx = $('#drawPanelMain')[0].getContext('2d');
+        var dimension = [];
         dimension.push(ctx.canvas.height);
         dimension.push(ctx.canvas.width);
 
@@ -44,10 +44,7 @@ function PaintView() {
         };
 
         img.src = image.image;
-
-        this.changeBackground(image.background);
-
-    };
+    }
 
     this.resizeAndRedraw = function() {
         var $drawPanelMain = $('#drawPanelMain');

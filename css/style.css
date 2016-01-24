@@ -238,7 +238,7 @@ body  {
 }
 
 #mirrorMode, #spiralMode{
-    color: dimgrey;
+    color: darkgrey;
     margin-bottom: 20px;
     display: -webkit-box;
     display: -moz-box;
