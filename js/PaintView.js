@@ -1,14 +1,14 @@
 function PaintView() {
 
     this.changeBackground = function (color) {
-        $('#drawPanelMain, #modePanel').animate({'backgroundColor': color},400);
+        $('#drawPanelMain, #modePanel').animate({'backgroundColor': color}, 400);
     };
 
-    this.resize = function() {
-        var width = $(window).width();
-        var height = $(window).height();
+    this.resize = function () {
+        var width = $(window).width(),
+            height = $(window).height(),
+            ctx = $('#cursorPanel')[0].getContext('2d');
 
-        var ctx = $('#cursorPanel')[0].getContext('2d');
         ctx.canvas.height = height;
         ctx.canvas.width = width;
 
@@ -21,7 +21,7 @@ function PaintView() {
         ctx.canvas.width = width;
     };
 
-    this.getDimensions = function() {
+    this.getDimensions = function () {
         ctx = $('#drawPanelMain')[0].getContext('2d');
         var dimension = [];
         dimension.push(ctx.canvas.height);
@@ -30,35 +30,32 @@ function PaintView() {
         return dimension;
     };
 
-    this.openImage = function(image) {
-        var img = new Image();
-        var $drawPanelMain = $('#drawPanelMain');
-        var ctx = $drawPanelMain[0].getContext('2d');
-        var prevHeight = ctx.canvas.height;
-        var prevWidth = ctx.canvas.width;
+    this.openImage = function (image) {
+        var img = new Image(),
+            $drawPanelMain = $('#drawPanelMain'),
+            ctx = $drawPanelMain[0].getContext('2d'),
+            prevHeight = ctx.canvas.height,
+            prevWidth = ctx.canvas.width;
 
-        img.onload = function() {
-            document.getElementById("drawPanelMain")
-                .getContext("2d")
+        img.onload = function () {
+            document.getElementById('drawPanelMain')
+                .getContext('2d')
                 .drawImage(this, (prevWidth - image.width) / 2, (prevHeight - image.height) / 2);
         };
 
         img.src = image.image;
-    }
+    };
 
-    this.resizeAndRedraw = function() {
-        var $drawPanelMain = $('#drawPanelMain');
-        var ctx = $drawPanelMain[0].getContext('2d');
-        var prevHeight = ctx.canvas.height;
-        var prevWidth = ctx.canvas.width;
-
-        var width = $(window).width();
-        var height = $(window).height();
-
-        var xDelta = prevWidth > width ? (prevWidth - width) / 2 : 0;
-        var yDelta = prevHeight > height ? (prevHeight - height) / 2 : 0;
-
-        var imageData = ctx.getImageData(xDelta, yDelta, Math.min(width, prevWidth), Math.min(height, prevHeight));
+    this.resizeAndRedraw = function () {
+        var $drawPanelMain = $('#drawPanelMain'),
+            ctx = $drawPanelMain[0].getContext('2d'),
+            prevHeight = ctx.canvas.height,
+            prevWidth = ctx.canvas.width,
+            width = $(window).width(),
+            height = $(window).height(),
+            xDelta = prevWidth > width ? (prevWidth - width) / 2 : 0,
+            yDelta = prevHeight > height ? (prevHeight - height) / 2 : 0,
+            imageData = ctx.getImageData(xDelta, yDelta, Math.min(width, prevWidth), Math.min(height, prevHeight));
 
         this.resize();
 
@@ -70,84 +67,80 @@ function PaintView() {
     };
 
 
-
-    this.clear = function() {
+    this.clear = function () {
         $('#drawPanelMain').clearCanvas();
         $('#drawPanel').clearCanvas();
     };
 
-    this.clearCursor = function() {
+    this.clearCursor = function () {
         $("#cursorPanel").clearCanvas();
     };
 
-    this.clearBuffer = function() {
+    this.clearBuffer = function () {
         $('#drawPanel').clearCanvas();
     };
 
-    this.flushBuffer = function() {
-        var c = document.getElementById("drawPanel");
-        var cMain = document.getElementById("drawPanelMain");
-        var ctxMain = cMain.getContext('2d');
+    this.flushBuffer = function () {
+        var c = document.getElementById('drawPanel'),
+            cMain = document.getElementById('drawPanelMain'),
+            ctxMain = cMain.getContext('2d');
         ctxMain.drawImage(c, 0, 0);
     };
 
-    this.hideBuffer = function() {
+    this.hideBuffer = function () {
         $('#drawPanel').css('display', 'none');
     };
 
-    this.showBuffer = function() {
+    this.showBuffer = function () {
         $('#drawPanel').css('display', 'block');
     };
 
-    this.updateCursor = function(points) {
-        var $cursorPanel = $("#cursorPanel");
+    this.updateCursor = function (points) {
+        var $cursorPanel = $('#cursorPanel');
         $cursorPanel.clearCanvas();
         for (var i = 0; i < points.length; i++) {
             $cursorPanel.drawArc({
                 fillStyle: points[i].getColor(),
-                x: points[i].getX() + $(window).width()/2, y: - points[i].getY() + $(window).height()/2,
+                x: points[i].getX() + $(window).width() / 2, y: -points[i].getY() + $(window).height() / 2,
                 radius: 4
             });
         }
     };
 
-    this.updateArrays = function(from, to) {
+    this.updateArrays = function (from, to) {
         var $drawPanel = $('#drawPanel');
         for (var i = 0; i < from.length; i++) {
             $drawPanel.drawLine({
                 strokeStyle: from[i].getColor(),
                 strokeWidth: 7,
                 rounded: true,
-                x1: from[i].getX() + $(window).width()/2, y1: - from[i].getY() + $(window).height()/2,
-                x2: to[i].getX() + $(window).width()/2, y2: - to[i].getY() + $(window).height()/2
+                x1: from[i].getX() + $(window).width() / 2, y1: -from[i].getY() + $(window).height() / 2,
+                x2: to[i].getX() + $(window).width() / 2, y2: -to[i].getY() + $(window).height() / 2
             });
         }
     };
 
-    this.drawPanelToImage = function(backgroundColor)
-    {
-        var canvas = document.getElementById("drawPanelMain");
-        var context = canvas.getContext("2d");
-        var w = canvas.width;
-        var h = canvas.height;
+    this.drawPanelToImage = function (backgroundColor) {
+        var canvas = document.getElementById('drawPanelMain'),
+            context = canvas.getContext('2d'),
+            w = canvas.width,
+            h = canvas.height;
 
         var data;
 
-        if(backgroundColor)
-        {
+        if (backgroundColor) {
             data = context.getImageData(0, 0, w, h);
             var compositeOperation = context.globalCompositeOperation;
-            context.globalCompositeOperation = "destination-over";
+            context.globalCompositeOperation = 'destination-over';
             context.fillStyle = backgroundColor;
-            context.fillRect(0,0,w,h);
+            context.fillRect(0, 0, w, h);
         }
 
-        var imageData = canvas.toDataURL("image/png");
+        var imageData = canvas.toDataURL('image/png');
 
-        if(backgroundColor)
-        {
-            context.clearRect (0,0,w,h);
-            context.putImageData(data, 0,0);
+        if (backgroundColor) {
+            context.clearRect(0, 0, w, h);
+            context.putImageData(data, 0, 0);
             context.globalCompositeOperation = compositeOperation;
         }
 

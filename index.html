@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='UTF8'>
+    <meta charset='UTF-8'>
     <title>Kaleidoscope Painting</title>
 
     <link rel="shortcut icon" href="./image/favicon.ico" type="image/x-icon">
@@ -14,8 +14,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.min.js"></script>
-    <script src="./lib/js/jquery-ui.min.js" type="text/javascript" ></script>
-    <script src="./lib/js/jquery.fullscreen.min.js" type="text/javascript" ></script>
+    <script src="./lib/js/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="./lib/js/jquery.fullscreen.min.js" type="text/javascript"></script>
     <script src="./lib/js/jcanvas.min.js"></script>
     <script src="./js/Point.js" type="text/javascript"></script>
     <script src="./js/PaintView.js" type="text/javascript"></script>
@@ -34,16 +34,15 @@
     <div id="dialog-save" title="Saving...">
         <p class="validate">Enter the file name.</p>
         <form>
-            <label>File Name:</label><br />
+            <label>File Name:</label><br/>
             <input type="text" id="name">
         </form>
     </div>
     <div id="dialog-open" title="Open file...">
-        <p class="validate">Enter the file name.</p><br />
-        <div id="pictureList"></div>
+        <p class="validate">Enter the file name.</p><br/>
         <form>
             <label>File Name:</label>
-            <input type="text" id="fileName">
+            <select id="pictureList"></select>
         </form>
     </div>
     <a id="download">Download as image</a>
@@ -77,29 +76,29 @@
         <div id="background">
             <span>Background Color</span>
             <div id="backgroundColors">
-                <div id="black"></div>
-                <div id="white"></div>
-                <div id="grey"></div>
-                <div id="lightBlue"></div>
-                <div id="yellow"></div>
-                <div id="lightGreen"></div>
-                <div id="pink"></div>
+                <div class="float" id="black"></div>
+                <div class="float" id="white"></div>
+                <div class="float" id="grey"></div>
+                <div class="float" id="lightBlue"></div>
+                <div class="float" id="yellow"></div>
+                <div class="float" id="lightGreen"></div>
+                <div class="float" id="pink"></div>
             </div>
         </div>
         <div id="color">
             <span>Pen Color</span>
             <div id="penColors">
-                <div id="blackPen"></div>
-                <div id="whitePen"></div>
-                <div id="greyPen"></div>
-                <div id="lightBluePen"></div>
-                <div id="yellowPen"></div>
-                <div id="pinkPen"></div>
-                <div id="redPen"></div>
-                <div id="bluePen"></div>
-                <div id="greenPen"></div>
-                <div id="orangePen"></div>
-                <div id="violetPen"></div>
+                <div class="float" id="blackPen"></div>
+                <div class="float" id="whitePen"></div>
+                <div class="float" id="greyPen"></div>
+                <div class="float" id="lightBluePen"></div>
+                <div class="float" id="yellowPen"></div>
+                <div class="float" id="pinkPen"></div>
+                <div class="float" id="redPen"></div>
+                <div class="float" id="bluePen"></div>
+                <div class="float" id="greenPen"></div>
+                <div class="float" id="orangePen"></div>
+                <div class="float" id="violetPen"></div>
             </div>
         </div>
         <div id="symmetry">

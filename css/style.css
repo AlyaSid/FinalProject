@@ -20,7 +20,7 @@ body  {
     color: white;
     position: absolute;
     z-index: 10;
-    width:100%;
+    width: 100%;
     height: 100%;
 }
 
@@ -44,8 +44,8 @@ body  {
 #sign {
     position: absolute;
     z-index: 11;
-    right:0;
-    bottom:0;
+    right: 0;
+    bottom: 0;
     font-size: 15px;
     opacity: 0.7;
 }
@@ -83,8 +83,8 @@ body  {
     min-width: 380px;
     height: auto;
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     z-index: 4;
     display: none;
 }
@@ -116,13 +116,13 @@ body  {
 }
 
 #modePanel {
-    position:absolute;
+    position: absolute;
     background-color: black;
     z-index: 1000;
-    top:100px;
-    left:15px;
-    width:300px;
-    height:auto;
+    top: 100px;
+    left: 15px;
+    width: 300px;
+    height: auto;
     display: none;
 }
 
@@ -132,10 +132,10 @@ body  {
 }
 
 #background span {
-    color:darkgrey;
+    color: darkgrey;
     display: block;
-    width:132px;
-    margin: 0px auto 10px;
+    width: 132px;
+    margin: 0 auto 10px;
 }
 
 #backgroundColors div {
@@ -151,39 +151,36 @@ body  {
     opacity: 0.7;
 }
 
-#black {
-    background-color:black;
+.float {
     float: left;
 }
 
+#black {
+    background-color: black;
+}
+
 #white {
-    background-color:white;
-    float: left;
+    background-color: white;
 }
 
 #grey {
     background-color: dimgrey;
-    float: left;
 }
 
 #lightBlue {
     background-color: lightblue;
-    float: left;
 }
 
 #yellow {
     background-color: #e7d218;
-    float: left;
 }
 
 #lightGreen {
     background-color: greenyellow;
-    float: left;
 }
 
 #pink {
     background-color: lightpink;
-    float: left;
 }
 
 #color {
@@ -192,9 +189,9 @@ body  {
 }
 
 #color span {
-    color:darkgrey;
+    color: darkgrey;
     display: block;
-    width:100px;
+    width: 100px;
     margin: 20px auto;
 }
 
@@ -213,55 +210,44 @@ body  {
 }
 
 #blackPen {
-    background-color:black;
-    float: left;
+    background-color: black;
 }
 
 #whitePen {
-    background-color:white;
-    float: left;
+    background-color: white;
 }
 
 #greyPen {
     background-color: dimgrey;
-    float: left;
 }
 
 #lightBluePen {
     background-color: lightblue;
-    float: left;
 }
 
 #yellowPen {
     background-color: yellow;
-    float: left;
 }
 
 #pinkPen {
     background-color: deeppink;
-    float: left;
 }
 
 #redPen {
     background-color: red;
-    float: left;
 }
 
 #bluePen {
     background-color: blue;
-    float: left;
 }
 #greenPen {
-    background-color: limegreen;
-    float: left;
+    background-color: limegreen
 }
 #orangePen {
     background-color: orange;
-    float: left;
 }
 #violetPen {
     background-color: darkviolet;
-    float: left;
 }
 
 #symmetry {
@@ -269,7 +255,7 @@ body  {
 }
 
 #symmetryValue {
-    color:darkgrey;
+    color: darkgrey;
     text-align: center;
     margin-bottom: 40px;
 }
@@ -283,7 +269,7 @@ body  {
     display: -webkit-flex;
     display: flex;
     justify-content: space-between;
-    padding: 0px 20px;
+    padding: 0 20px;
 }
 
 .state-on {
@@ -294,11 +280,15 @@ body  {
 #userText {
     position: absolute;
     z-index: 1000;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     color: darkgrey;
 }
 
 #download {
     display: none;
+}
+
+#pictureList {
+    width: 100%;
 }
